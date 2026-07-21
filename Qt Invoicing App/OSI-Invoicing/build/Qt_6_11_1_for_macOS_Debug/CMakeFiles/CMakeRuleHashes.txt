@@ -1,0 +1,4 @@
+# Hashes of file build rules.
+02b21c076ae9807abe2301a94bce71e1 CMakeFiles/OSI-Invoicing_autogen
+f236c8ba7ebceeb9af25007e9bb56442 OSI-Invoicing_autogen/EWIEGA46WW/qrc_resources.cpp
+90a221c79d954c72ce6af0adbbaa1e3b OSI-Invoicing_autogen/timestamp

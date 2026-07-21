@@ -1,0 +1,40 @@
+cmake_minimum_required(VERSION 3.19)
+project(OSI-Invoicing LANGUAGES CXX)
+
+find_package(Qt6 6.5 REQUIRED COMPONENTS Core Widgets Sql)
+
+qt_standard_project_setup()
+
+set(CMAKE_AUTORCC ON)
+
+qt_add_executable(OSI-Invoicing
+    WIN32 MACOSX_BUNDLE
+    main.cpp
+    mainwindow.cpp
+    mainwindow.h
+    mainwindow.ui
+    contacts_customer.h contacts_customer.cpp contacts_customer.ui
+    "${CMAKE_CURRENT_SOURCE_DIR}/resources.qrc"
+    DatabaseManager.h
+    DatabaseManager.cpp
+)
+
+target_link_libraries(OSI-Invoicing
+    PRIVATE
+        Qt6::Core
+        Qt6::Widgets
+        Qt6::Sql
+)
+
+install(TARGETS OSI-Invoicing
+    BUNDLE  DESTINATION .
+    RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
+    LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
+)
+
+qt_generate_deploy_app_script(
+    TARGET OSI-Invoicing
+    OUTPUT_SCRIPT deploy_script
+    NO_UNSUPPORTED_PLATFORM_ERROR
+)
+install(SCRIPT ${deploy_script})
