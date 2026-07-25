@@ -28,8 +28,8 @@ Built on CMake and leveraging modern Qt Qt Widgets / Core frameworks, it support
 
 ## 🗂 Project Structure
 
-'''Text
-**OSI-Invocing/**
+```
+OSI-Invocing/
 |—CMakeLists.txt	# Primary CMake build specifications
 |—DatabaseManager.cpp	# SQLite/Database handling logic
 |—DatabaseManager.h	# Header for DatabaseManager
@@ -37,7 +37,7 @@ Built on CMake and leveraging modern Qt Qt Widgets / Core frameworks, it support
 |—contact_customer.h	# Header for contact_customer
 |—resources.qrc		# Qt Resource file (icons, images, styles)
 |__main.cpp		# Application entry point
-'''
+```
 --- 
 
 ## 📋 Prerequisites & Requirements 
