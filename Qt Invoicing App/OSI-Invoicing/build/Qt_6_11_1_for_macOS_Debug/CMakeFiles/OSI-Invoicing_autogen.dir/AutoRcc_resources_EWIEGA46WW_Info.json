@@ -1,0 +1,25 @@
+{
+	"BUILD_DIR" : "/Users/rpb/Desktop/Portfolio Projects/Qt Invoicing App/OSI-Invoicing/build/Qt_6_11_1_for_macOS_Debug/OSI-Invoicing_autogen",
+	"CMAKE_BINARY_DIR" : "/Users/rpb/Desktop/Portfolio Projects/Qt Invoicing App/OSI-Invoicing/build/Qt_6_11_1_for_macOS_Debug",
+	"CMAKE_CURRENT_BINARY_DIR" : "/Users/rpb/Desktop/Portfolio Projects/Qt Invoicing App/OSI-Invoicing/build/Qt_6_11_1_for_macOS_Debug",
+	"CMAKE_CURRENT_SOURCE_DIR" : "/Users/rpb/Desktop/Portfolio Projects/Qt Invoicing App/OSI-Invoicing",
+	"CMAKE_SOURCE_DIR" : "/Users/rpb/Desktop/Portfolio Projects/Qt Invoicing App/OSI-Invoicing",
+	"CROSS_CONFIG" : false,
+	"GENERATOR" : "Unix Makefiles",
+	"INCLUDE_DIR" : "/Users/rpb/Desktop/Portfolio Projects/Qt Invoicing App/OSI-Invoicing/build/Qt_6_11_1_for_macOS_Debug/OSI-Invoicing_autogen/include",
+	"INPUTS" : 
+	[
+		"/Users/rpb/Desktop/Portfolio Projects/Qt Invoicing App/OSI-Invoicing/search.png"
+	],
+	"LOCK_FILE" : "/Users/rpb/Desktop/Portfolio Projects/Qt Invoicing App/OSI-Invoicing/build/Qt_6_11_1_for_macOS_Debug/CMakeFiles/OSI-Invoicing_autogen.dir/AutoRcc_resources_EWIEGA46WW_Lock.lock",
+	"MULTI_CONFIG" : false,
+	"OPTIONS" : [ "--no-zstd", "-name", "resources" ],
+	"OUTPUT_CHECKSUM" : "EWIEGA46WW",
+	"OUTPUT_NAME" : "qrc_resources.cpp",
+	"RCC_EXECUTABLE" : "/Users/rpb/Qt/6.11.1/macos/libexec/rcc",
+	"RCC_LIST_OPTIONS" : [ "--list" ],
+	"SETTINGS_FILE" : "/Users/rpb/Desktop/Portfolio Projects/Qt Invoicing App/OSI-Invoicing/build/Qt_6_11_1_for_macOS_Debug/CMakeFiles/OSI-Invoicing_autogen.dir/AutoRcc_resources_EWIEGA46WW_Used.txt",
+	"SOURCE" : "/Users/rpb/Desktop/Portfolio Projects/Qt Invoicing App/OSI-Invoicing/resources.qrc",
+	"USE_BETTER_GRAPH" : true,
+	"VERBOSITY" : 0
+}
