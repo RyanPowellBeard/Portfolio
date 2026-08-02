@@ -30,6 +30,13 @@
      </property>
      <layout class="QHBoxLayout" name="horizontalLayout">
       <item>
+       <widget class="QLabel" name="label">
+        <property name="text">
+         <string>SEARCH</string>
+        </property>
+       </widget>
+      </item>
+      <item>
        <widget class="QLineEdit" name="CustomerSearch_Field">
         <property name="sizePolicy">
          <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
@@ -88,7 +95,34 @@
     </widget>
    </item>
    <item>
-    <widget class="QMdiArea" name="mdiArea"/>
+    <widget class="QTableWidget" name="clientsTableWidget">
+     <property name="maximumSize">
+      <size>
+       <width>16777215</width>
+       <height>16777215</height>
+      </size>
+     </property>
+     <column>
+      <property name="text">
+       <string>Name</string>
+      </property>
+     </column>
+     <column>
+      <property name="text">
+       <string>Business</string>
+      </property>
+     </column>
+     <column>
+      <property name="text">
+       <string>Email</string>
+      </property>
+     </column>
+     <column>
+      <property name="text">
+       <string>Phone</string>
+      </property>
+     </column>
+    </widget>
    </item>
   </layout>
  </widget>

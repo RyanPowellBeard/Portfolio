@@ -17,6 +17,11 @@ qt_add_executable(OSI-Invoicing
     "${CMAKE_CURRENT_SOURCE_DIR}/resources.qrc"
     DatabaseManager.h
     DatabaseManager.cpp
+    client.h
+    clientdao.h clientdao.cpp
+    addclientdialog.h addclientdialog.cpp addclientdialog.ui
+
+
 )
 
 target_link_libraries(OSI-Invoicing

@@ -1,8 +1,12 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
+#include "DatabaseManager.h"
+#include "contacts_customer.h"
 
 #include <QMdiSubWindow>
 #include <QMessageBox>
+#include <QSqlQuery>
+#include <QDebug>
 
 
 // Window Classes
@@ -10,9 +14,10 @@
 
 
 
-MainWindow::MainWindow(QWidget *parent)
+MainWindow::MainWindow(DatabaseManager& dbManager, QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
+    , m_dbManager(dbManager) // Bind reference passed from main.cpp
 {
     ui->setupUi(this);
 
@@ -57,11 +62,11 @@ void MainWindow::on_Statements_Button_clicked()
 
 }
 
-// Customers Button
+// Customers Button on 366
 void MainWindow::on_Customers_Button_clicked()
 {
     // Allocate the Window on the Heap so it persists after this function
-    Contacts_Customer *contactWindow = new Contacts_Customer(this);
+    Contacts_Customer *contactWindow = new Contacts_Customer(m_dbManager, this);
 
     // Add sub-window inside the MDI Area
     // This locks it to the boundaries of the MDI Area
@@ -123,9 +128,6 @@ void MainWindow::on_actionPrint_triggered()
 {
 
 }
-
-// Close/Exit is located in the "MainWindow::MainWindow(QWidget *parent)"
-
 
 //------------Edit Tab------------
 
@@ -358,14 +360,17 @@ void MainWindow::on_actionBank_Reconciliation_triggered()
 void MainWindow::on_actionClients_Customers_triggered()
 {
     // Allocate the Window on the Heap so it persists after this function
-    Contacts_Customer *contactWindow = new Contacts_Customer(this);
+    Contacts_Customer *contactWindow = new Contacts_Customer(m_dbManager, this);
 
+    // Add sub-window inside the MDI Area
+    // This locks it to the boundaries of the MDI Area
+    QMdiSubWindow *subContactWindow = ui->mdiArea->addSubWindow(contactWindow);
 
     // Deletes the memory automactically when the window is closed
-    contactWindow->setAttribute(Qt::WA_DeleteOnClose);
+    subContactWindow->setAttribute(Qt::WA_DeleteOnClose);
 
     // Opens Window
-    contactWindow->show();
+    subContactWindow->showMaximized();
 
 }
 

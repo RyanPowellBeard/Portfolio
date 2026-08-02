@@ -2,6 +2,11 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
+#include <QVector>
+#include "client.h"
+
+// Forward declaration
+class DatabaseManager;
 
 QT_BEGIN_NAMESPACE
 namespace Ui {
@@ -14,10 +19,11 @@ class MainWindow : public QMainWindow
     Q_OBJECT
 
 public:
-    explicit MainWindow(QWidget *parent = nullptr);
+    explicit MainWindow(DatabaseManager& m_dbManager, QWidget *parent = nullptr);
     ~MainWindow() override;
 
 private slots:
+
     void on_CreateInvoice_Button_clicked();
 
     void on_ReceivePayment_Button_clicked();
@@ -125,6 +131,8 @@ private slots:
     void on_actionAbout_Qt_triggered();
 
 private:
+
     Ui::MainWindow *ui;
+    DatabaseManager& m_dbManager; // Reference to main.cpp's instance
 };
 #endif // MAINWINDOW_H

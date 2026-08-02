@@ -4,13 +4,43 @@
 #include <QSqlError>
 #include <QSqlQuery>
 #include <QDebug>
+#include <QThread>
+#include <QCoreApplication>
 
-DatabaseManager::DatabaseManager() {}
-DatabaseManager::~DatabaseManager() {}
+// Constructor
+DatabaseManager::DatabaseManager()
+    : m_connectionName("app_sqlite_connection") {}
 
-QSqlDatabase DatabaseManager::db() {
-    // Fetches the default app connection safely from anywere in the code
-    return QSqlDatabase::database();
+// Destructor guarantees RAII cleanup if closeDatabase() was not manually called
+DatabaseManager::~DatabaseManager() {
+    closeDatabase();
+}
+
+QSqlDatabase DatabaseManager::database() const {
+    // Check which thread is calling this function
+    QString connectionName = m_connectionName;
+    if (QThread::currentThread() != qApp->thread()) {
+        // Generate a unique connection name for worker threads
+        connectionName += QString("_thread_%1").arg(quintptr(QThread::currentThreadId()));
+    }
+
+    // If thread has an active connection, return it
+    if (QSqlDatabase::contains(connectionName)) {
+        return QSqlDatabase::database(connectionName);
+    }
+
+    // If a worker thread needs its own connection, open a clone connection
+    QSqlDatabase threadDb = QSqlDatabase::addDatabase("QSQLITE", connectionName);
+    threadDb.setDatabaseName(m_db.databaseName()); // Same database file path
+    if (threadDb.open()) {
+        QSqlQuery q(threadDb);
+        q.exec("PRAGMA foreign_keys = ON;"); // Pragma set per connection
+    }
+    else {
+        qCritical() << "Failed to open thread database connection:" << threadDb.lastError().text();
+    }
+
+    return threadDb;
 }
 
 bool DatabaseManager::initDatabase() {
@@ -18,8 +48,8 @@ bool DatabaseManager::initDatabase() {
     QString appDataPath = QStandardPaths::writableLocation(QStandardPaths::AppDataLocation);
     QDir dir(appDataPath);
     if (!dir.exists()) {
-        if (!dir.mkpath(".")) {// Will create folder if missing
-            qCritical() << "Error: Could not create app directory structures at:" << appDataPath;
+        if (!dir.mkpath(".")) { // Will create folder structure if missing
+            qCritical() << "Error: Could not create app directory structure at:" << appDataPath;
             return false;
         }
     }
@@ -27,50 +57,65 @@ bool DatabaseManager::initDatabase() {
     QString dbPath = dir.filePath("OSIinvoices.db");
     qDebug() << "Database path initialized at:" << dbPath;
 
-    // Load the SQLite driver
-    QSqlDatabase database = QSqlDatabase::addDatabase("QSQLITE");
-    if (!database.isValid()) {
+    // Load the SQLite driver and bind to m_db using m_connectionName
+    m_db = QSqlDatabase::addDatabase("QSQLITE", m_connectionName);
+    if (!m_db.isValid()) {
         qCritical() << "Error: QSQLITE driver is missing or invalid!";
         return false;
     }
 
-    database.setDatabaseName(dbPath);
+    m_db.setDatabaseName(dbPath);
 
     // Open Connection
-    if (!database.open()) {
-        qCritical() << "Error: Could not log into database!" << database.lastError().text();
+    if (!m_db.open()) {
+        qCritical() << "Error: Could not open database!" << m_db.lastError().text();
         return false;
+    }
+
+    // Enable Foreign Keys and PRAGMAs immediately upon opening
+    QSqlQuery pragmaQuery(m_db);
+    if (!pragmaQuery.exec("PRAGMA foreign_keys = ON;")) {
+        qCritical() << "Failed to enable foreign keys:" << pragmaQuery.lastError().text();
+        return false;
+    }
+
+    // Optimize performance with Write-Ahead Logging (WAL)
+    if (!pragmaQuery.exec("PRAGMA journal_mode = WAL;")) {
+        qWarning() << "Could not enable WAL mode:" << pragmaQuery.lastError().text();
     }
 
     // Build tables
     return createTables();
 }
 
-bool DatabaseManager::createTables(){
-    QSqlQuery query;
-
-
-    // Enable Foreign Key Support in SQLite
-    if (!query.exec("PRAGMA foreign_keys = ON;")) {
-        qCritical() << "Failed to enable foreign keys:" << query.lastError().text();
-        return false;
+// Close db and safely unregister connection from Qt pool
+void DatabaseManager::closeDatabase() {
+    if (m_db.isOpen()) {
+        m_db.close();
     }
 
-    // Optimize performance with Write-Ahead Logging (WAL)
-    if (!query.exec("PRAGMA journal_mode = WAL")) {
-        // Wal is nice to have, but is not fatal if it fails, DO NOT CRASH OUT.
-        qWarning() << "Could not enable WAL mode:" << query.lastError().text();
+    // Assign default-constructed invalid database to drop internal reference count
+    m_db = QSqlDatabase();
+
+    // Safely unregister connection string without triggering Qt warnings
+    if (QSqlDatabase::contains(m_connectionName)) {
+        QSqlDatabase::removeDatabase(m_connectionName);
     }
+}
+
+bool DatabaseManager::createTables() {
+    QSqlQuery query(m_db); // Pass connection explicitly
 
     // Clients Table
     if (!query.exec(
-        "CREATE TABLE IF NOT EXISTS clients ("
-        "client_id INTEGER PRIMARY KEY AUTOINCREMENT," // Primary Key
-        "first_name TEXT NOT NULL,"
-        "last_name TEXT NOT NULL,"
-        "email TEXT,"
-        "phone_number TEXT,"
-        "created_at TEXT DEFAULT CURRENT_TIMESTAMP"
+            "CREATE TABLE IF NOT EXISTS clients ("
+            "client_id INTEGER PRIMARY KEY AUTOINCREMENT,"
+            "first_name TEXT NOT NULL,"
+            "last_name TEXT NOT NULL,"
+            "business_name TEXT,"
+            "email TEXT,"
+            "phone_number TEXT,"
+            "created_at TEXT DEFAULT CURRENT_TIMESTAMP"
             ");"
             )) {
         qCritical() << "Failed to create Clients Table:" << query.lastError().text();
@@ -79,18 +124,18 @@ bool DatabaseManager::createTables(){
 
     // Address Table
     if (!query.exec(
-        "CREATE TABLE IF NOT EXISTS addresses ("
-        "address_id INTEGER PRIMARY KEY AUTOINCREMENT," // PRIMARY KEY
-        "client_id INTEGER," // Holds Foreign Key
-        "address_type TEXT NOT NULL,"
-        "street_address TEXT,"
-        "address_line2 TEXT,"
-        "city TEXT,"
-        "state TEXT,"
-        "postal_code TEXT,"
-        "country TEXT,"
-        "FOREIGN KEY(client_id) REFERENCES clients(client_id) ON DELETE CASCADE" // FOREIGN KEY
-        ");"
+            "CREATE TABLE IF NOT EXISTS addresses ("
+            "address_id INTEGER PRIMARY KEY AUTOINCREMENT,"
+            "client_id INTEGER,"
+            "address_type TEXT NOT NULL,"
+            "street_address TEXT,"
+            "address_line2 TEXT,"
+            "city TEXT,"
+            "state TEXT,"
+            "postal_code TEXT,"
+            "country TEXT,"
+            "FOREIGN KEY(client_id) REFERENCES clients(client_id) ON DELETE CASCADE"
+            ");"
             )) {
         qCritical() << "Failed to create Address Table:" << query.lastError().text();
         return false;
@@ -98,67 +143,62 @@ bool DatabaseManager::createTables(){
 
     // Invoices Table
     if (!query.exec(
-        "CREATE TABLE IF NOT EXISTS invoices ("
-        "invoice_id INTEGER PRIMARY KEY AUTOINCREMENT," // PRIMARY KEY
-        "client_id INTEGER," // Holds Foreign Key
-        "invoice_number TEXT NOT NULL UNIQUE," // Requires a Unique invoice number
-        "issue_date TEXT NOT NULL," // Not handled here to allow user to be able to change date
-        "due_date TEXT," // Will be adjusted based on terms off of issue_date
-        "status TEXT NOT NULL,"
-        "tax_rate INTEGER,"
-        "discount_amount INTEGER," // Before saving multiply by 100, to display data divide the retrieved interger by 100
-        "notes TEXT,"
-        "FOREIGN KEY(client_id) REFERENCES clients(client_id) ON DELETE SET NULL" // FOREIGN KEY
-        ");"
+            "CREATE TABLE IF NOT EXISTS invoices ("
+            "invoice_id INTEGER PRIMARY KEY AUTOINCREMENT,"
+            "client_id INTEGER,"
+            "invoice_number TEXT NOT NULL UNIQUE,"
+            "issue_date TEXT NOT NULL,"
+            "due_date TEXT,"
+            "status TEXT NOT NULL,"
+            "tax_rate INTEGER," // Stored as integer basis points or whole percentage
+            "discount_amount INTEGER," // Stored in cents (multiply by 100 on write, divide by 100 on read)
+            "notes TEXT,"
+            "FOREIGN KEY(client_id) REFERENCES clients(client_id) ON DELETE SET NULL"
+            ");"
             )) {
         qCritical() << "Failed to create Invoice Table:" << query.lastError().text();
         return false;
     }
 
     // Services Table
-    /*
-     * Used for consistant priced items and services
-     * Included is an is_active flag. When price is changed, mark the old one inactive and create a new row
-     *  ensuring the frontend only graphs current items
-     */
     if (!query.exec(
-        "CREATE TABLE IF NOT EXISTS services ("
-        "service_id INTEGER PRIMARY KEY AUTOINCREMENT," // PRIMARY KEY
-        "service_name TEXT NOT NULL,"
-        "service_description TEXT,"
-        "service_price INTEGER NOT NULL," // Before saving multiply by 100, to display data divide the retrieved interger by 100, @ time of sale!!!
-        "is_active INTEGER DEFAULT 1 NOT NULL CHECK (is_active IN (0, 1))" // SQLite uses 0 & 1, True maps to 1 and False maps to 0
-        ");"
+            "CREATE TABLE IF NOT EXISTS services ("
+            "service_id INTEGER PRIMARY KEY AUTOINCREMENT,"
+            "service_name TEXT NOT NULL,"
+            "service_description TEXT,"
+            "service_price INTEGER NOT NULL," // Stored in cents
+            "is_active INTEGER DEFAULT 1 NOT NULL CHECK (is_active IN (0, 1))"
+            ");"
             )) {
         qCritical() << "Failed to create Service Table:" << query.lastError().text();
         return false;
     }
 
-    // Invoice Items
+    // Invoice Items Table
+    // FIX: Explicitly ROUND and CAST quantity * price to INTEGER to eliminate floating point issues in SQLite
     if (!query.exec(
-        "CREATE TABLE IF NOT EXISTS invoice_items ("
-        "item_id INTEGER PRIMARY KEY AUTOINCREMENT," // PRIMARY KEY
-        "invoice_id INTEGER NOT NULL," // Holds Foreign Key
-        "service_id INTEGER," // Holds Foreign Key
-        "description TEXT,"
-        "quantity REAL NOT NULL DEFAULT 1.00," //Kept as REAL for partial hours (e.g., 2.5 hours)
-        // Freeze the price in time
-        "snapshot_unit_price INTEGER NOT NULL," // Before saving multiply by 100, to display data divide the retrieved interger by 100
-        "line_total REAL GENERATED ALWAYS AS (quantity * snapshot_unit_price) STORED," // Automatically calculated by SQLite
-        // ON DELETE CASCADE is set for invoice_id
-        "FOREIGN KEY(invoice_id) REFERENCES invoices(invoice_id) ON DELETE CASCADE," // FOREIGN KEY
-        // service_id is set to ON DELETE SET NULL to retain the record line with snapshot_unit_price
-        "FOREIGN KEY(service_id) REFERENCES services(service_id) ON DELETE SET NULL" // FOREIGN KEY
-        ");"
+            "CREATE TABLE IF NOT EXISTS invoice_items ("
+            "item_id INTEGER PRIMARY KEY AUTOINCREMENT,"
+            "invoice_id INTEGER NOT NULL,"
+            "service_id INTEGER,"
+            "description TEXT,"
+            "quantity REAL NOT NULL DEFAULT 1.00,"
+            "snapshot_unit_price INTEGER NOT NULL," // Price in cents frozen at time of invoice creation
+            "line_total INTEGER GENERATED ALWAYS AS (CAST(ROUND(quantity * snapshot_unit_price) AS INTEGER)) STORED,"
+            "FOREIGN KEY(invoice_id) REFERENCES invoices(invoice_id) ON DELETE CASCADE,"
+            "FOREIGN KEY(service_id) REFERENCES services(service_id) ON DELETE SET NULL"
+            ");"
             )) {
         qCritical() << "Failed to create Invoice Items Table:" << query.lastError().text();
         return false;
     }
 
     // Create Performance Indexes
+    query.exec("CREATE INDEX IF NOT EXISTS idx_clients_names ON clients(last_name, first_name, business_name);");
     query.exec("CREATE INDEX IF NOT EXISTS idx_addresses_client ON addresses(client_id);");
     query.exec("CREATE INDEX IF NOT EXISTS idx_invoices_client ON invoices(client_id);");
     query.exec("CREATE INDEX IF NOT EXISTS idx_invoice_items_invoice ON invoice_items(invoice_id);");
+    query.exec("CREATE INDEX IF NOT EXISTS idx_invoice_number ON invoices(invoice_number);");
 
     return true;
 }

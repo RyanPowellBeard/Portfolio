@@ -10,7 +10,7 @@
     <height>648</height>
    </rect>
   </property>
-  <property name="windowTitle">
+  <property name="OSI-Invoicing">
    <string>MainWindow</string>
   </property>
   <widget class="QWidget" name="centralwidget">
