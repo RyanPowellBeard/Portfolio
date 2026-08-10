@@ -3,8 +3,10 @@
 #include "DatabaseManager.h"
 #include "clientdao.h"
 #include "addclientdialog.h"
+#include "customercard.h"
 
 #include <QMessageBox>
+#include <QPushButton>
 
 
 Contacts_Customer::Contacts_Customer(DatabaseManager& dbManager, QWidget *parent)
@@ -15,8 +17,8 @@ Contacts_Customer::Contacts_Customer(DatabaseManager& dbManager, QWidget *parent
     ui->setupUi(this);
 
     // Set up table headers (also defined in the .ui file; kept here in case columns change at runtime)
-    ui->clientsTableWidget->setColumnCount(4);
-    ui->clientsTableWidget->setHorizontalHeaderLabels({"Name", "Business", "Email", "Phone"});
+    ui->clientsTableWidget->setColumnCount(5);
+    ui->clientsTableWidget->setHorizontalHeaderLabels({"Name", "Business", "Email", "Phone", ""});
 
     // Line Edit for Customer Search Field
     // Place Holder Text
@@ -56,18 +58,46 @@ void Contacts_Customer::populateCustomersTable(const QVector<Client> &clients) {
     for (int row = 0; row < clients.size(); ++row) {
         const Client &client = clients[row];
 
-        // Combine First and Last name
         QString fullName = QString("%1 %2").arg(client.firstName, client.lastName).trimmed();
-
         QTableWidgetItem *nameItem = new QTableWidgetItem(fullName);
-        // Store client_id in Qt::UserRole for easy lookup on row click/double-click
         nameItem->setData(Qt::UserRole, client.id);
 
         ui->clientsTableWidget->setItem(row, 0, nameItem);
         ui->clientsTableWidget->setItem(row, 1, new QTableWidgetItem(client.businessName));
         ui->clientsTableWidget->setItem(row, 2, new QTableWidgetItem(client.email));
         ui->clientsTableWidget->setItem(row, 3, new QTableWidgetItem(client.phoneNumber));
+
+        QPushButton *editButton = new QPushButton("Edit", this);
+        const int clientId = client.id; // captured by value, not by row index
+        connect(editButton, &QPushButton::clicked, this, [this, clientId]() {
+            openCustomerCard(clientId);
+        });
+        ui->clientsTableWidget->setCellWidget(row, 4, editButton);
     }
+}
+
+void Contacts_Customer::openCustomerCard(int clientId)
+{
+    CustomerCard *card = new CustomerCard(m_dbManager, clientId, this);
+
+    // Refresh the results table whenever the card saves a change
+    connect(card, &CustomerCard::customerUpdated, this, [this](int) {
+        on_CustomerSearch_Field_textChanged(ui->CustomerSearch_Field->text());
+    });
+
+    // Walk up to the top-level MainWindow's mdiArea instead of showing as a free Window
+    //QMdiArea *mdiArea = window()->findChild<QMdiArea*>("mdiArea");
+    //if (mdiArea) {
+    //    QMdiSubWindow *sub = mdiArea->addSubWindow(card);
+    //    sub->setAttribute(Qt::WA_DeleteOnClose);
+    //    sub->show();
+    //} else {
+    //    card->show(); // fallback if not embedded in an MDI-based parent
+    //}
+
+    card->show();
+    card->raise();
+    card->activateWindow();
 }
 
 // Add New Customer

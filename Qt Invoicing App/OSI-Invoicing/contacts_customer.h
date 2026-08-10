@@ -34,6 +34,8 @@ private:
     // Helper to render search results in the clients table
     void populateCustomersTable(const QVector<Client> &clients);
 
+    void openCustomerCard(int clientID);
+
     Ui::Contacts_Customer *ui;
     DatabaseManager& m_dbManager; // Store reference to manager
 

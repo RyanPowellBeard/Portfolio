@@ -61,7 +61,7 @@ public:
         if (AddClientDialog->objectName().isEmpty())
             AddClientDialog->setObjectName("AddClientDialog");
         AddClientDialog->resize(380, 419);
-        AddClientDialog->setMaximumSize(QSize(420, 440));
+        AddClientDialog->setMaximumSize(QSize(430, 440));
         frame = new QFrame(AddClientDialog);
         frame->setObjectName("frame");
         frame->setGeometry(QRect(10, 0, 361, 364));

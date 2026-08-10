@@ -1,23 +1,35 @@
 OSI-Invoicing_autogen/timestamp: \
-	/home/rpb/Desktop/Qt\ Invoicing\ App/OSI-Invoicing/CMakeLists.txt \
-	/home/rpb/Desktop/Qt\ Invoicing\ App/OSI-Invoicing/DatabaseManager.cpp \
-	/home/rpb/Desktop/Qt\ Invoicing\ App/OSI-Invoicing/DatabaseManager.h \
-	/home/rpb/Desktop/Qt\ Invoicing\ App/OSI-Invoicing/addclientdialog.cpp \
-	/home/rpb/Desktop/Qt\ Invoicing\ App/OSI-Invoicing/addclientdialog.h \
-	/home/rpb/Desktop/Qt\ Invoicing\ App/OSI-Invoicing/build/Desktop_Qt_6_10_0-Debug/.qtc/package-manager/auto-setup.cmake \
-	/home/rpb/Desktop/Qt\ Invoicing\ App/OSI-Invoicing/build/Desktop_Qt_6_10_0-Debug/.qtc/package-manager/maintenance_tool_provider.cmake \
-	/home/rpb/Desktop/Qt\ Invoicing\ App/OSI-Invoicing/build/Desktop_Qt_6_10_0-Debug/CMakeFiles/3.30.5/CMakeCXXCompiler.cmake \
-	/home/rpb/Desktop/Qt\ Invoicing\ App/OSI-Invoicing/build/Desktop_Qt_6_10_0-Debug/CMakeFiles/3.30.5/CMakeSystem.cmake \
-	/home/rpb/Desktop/Qt\ Invoicing\ App/OSI-Invoicing/build/Desktop_Qt_6_10_0-Debug/OSI-Invoicing_autogen/moc_predefs.h \
-	/home/rpb/Desktop/Qt\ Invoicing\ App/OSI-Invoicing/client.h \
-	/home/rpb/Desktop/Qt\ Invoicing\ App/OSI-Invoicing/clientdao.cpp \
-	/home/rpb/Desktop/Qt\ Invoicing\ App/OSI-Invoicing/clientdao.h \
-	/home/rpb/Desktop/Qt\ Invoicing\ App/OSI-Invoicing/contacts_customer.cpp \
-	/home/rpb/Desktop/Qt\ Invoicing\ App/OSI-Invoicing/contacts_customer.h \
-	/home/rpb/Desktop/Qt\ Invoicing\ App/OSI-Invoicing/main.cpp \
-	/home/rpb/Desktop/Qt\ Invoicing\ App/OSI-Invoicing/mainwindow.cpp \
-	/home/rpb/Desktop/Qt\ Invoicing\ App/OSI-Invoicing/mainwindow.h \
-	/home/rpb/Desktop/Qt\ Invoicing\ App/OSI-Invoicing/resources.qrc \
+	/home/rpb/Desktop/Qt\ Invoicing\ App/OSI-Invoicing/Qt\ Invoicing\ App/OSI-Invoicing/CMakeLists.txt \
+	/home/rpb/Desktop/Qt\ Invoicing\ App/OSI-Invoicing/Qt\ Invoicing\ App/OSI-Invoicing/DatabaseManager.cpp \
+	/home/rpb/Desktop/Qt\ Invoicing\ App/OSI-Invoicing/Qt\ Invoicing\ App/OSI-Invoicing/DatabaseManager.h \
+	/home/rpb/Desktop/Qt\ Invoicing\ App/OSI-Invoicing/Qt\ Invoicing\ App/OSI-Invoicing/addclientdialog.cpp \
+	/home/rpb/Desktop/Qt\ Invoicing\ App/OSI-Invoicing/Qt\ Invoicing\ App/OSI-Invoicing/addclientdialog.h \
+	/home/rpb/Desktop/Qt\ Invoicing\ App/OSI-Invoicing/Qt\ Invoicing\ App/OSI-Invoicing/addinvoicedialog.cpp \
+	/home/rpb/Desktop/Qt\ Invoicing\ App/OSI-Invoicing/Qt\ Invoicing\ App/OSI-Invoicing/addinvoicedialog.h \
+	/home/rpb/Desktop/Qt\ Invoicing\ App/OSI-Invoicing/Qt\ Invoicing\ App/OSI-Invoicing/build/Desktop_Qt_6_10_0-Debug/.qtc/package-manager/auto-setup.cmake \
+	/home/rpb/Desktop/Qt\ Invoicing\ App/OSI-Invoicing/Qt\ Invoicing\ App/OSI-Invoicing/build/Desktop_Qt_6_10_0-Debug/.qtc/package-manager/maintenance_tool_provider.cmake \
+	/home/rpb/Desktop/Qt\ Invoicing\ App/OSI-Invoicing/Qt\ Invoicing\ App/OSI-Invoicing/build/Desktop_Qt_6_10_0-Debug/CMakeFiles/3.30.5/CMakeCXXCompiler.cmake \
+	/home/rpb/Desktop/Qt\ Invoicing\ App/OSI-Invoicing/Qt\ Invoicing\ App/OSI-Invoicing/build/Desktop_Qt_6_10_0-Debug/CMakeFiles/3.30.5/CMakeSystem.cmake \
+	/home/rpb/Desktop/Qt\ Invoicing\ App/OSI-Invoicing/Qt\ Invoicing\ App/OSI-Invoicing/build/Desktop_Qt_6_10_0-Debug/OSI-Invoicing_autogen/moc_predefs.h \
+	/home/rpb/Desktop/Qt\ Invoicing\ App/OSI-Invoicing/Qt\ Invoicing\ App/OSI-Invoicing/client.h \
+	/home/rpb/Desktop/Qt\ Invoicing\ App/OSI-Invoicing/Qt\ Invoicing\ App/OSI-Invoicing/clientdao.cpp \
+	/home/rpb/Desktop/Qt\ Invoicing\ App/OSI-Invoicing/Qt\ Invoicing\ App/OSI-Invoicing/clientdao.h \
+	/home/rpb/Desktop/Qt\ Invoicing\ App/OSI-Invoicing/Qt\ Invoicing\ App/OSI-Invoicing/contacts_customer.cpp \
+	/home/rpb/Desktop/Qt\ Invoicing\ App/OSI-Invoicing/Qt\ Invoicing\ App/OSI-Invoicing/contacts_customer.h \
+	/home/rpb/Desktop/Qt\ Invoicing\ App/OSI-Invoicing/Qt\ Invoicing\ App/OSI-Invoicing/contacts_invoices.cpp \
+	/home/rpb/Desktop/Qt\ Invoicing\ App/OSI-Invoicing/Qt\ Invoicing\ App/OSI-Invoicing/contacts_invoices.h \
+	/home/rpb/Desktop/Qt\ Invoicing\ App/OSI-Invoicing/Qt\ Invoicing\ App/OSI-Invoicing/customercard.cpp \
+	/home/rpb/Desktop/Qt\ Invoicing\ App/OSI-Invoicing/Qt\ Invoicing\ App/OSI-Invoicing/customercard.h \
+	/home/rpb/Desktop/Qt\ Invoicing\ App/OSI-Invoicing/Qt\ Invoicing\ App/OSI-Invoicing/invoice.h \
+	/home/rpb/Desktop/Qt\ Invoicing\ App/OSI-Invoicing/Qt\ Invoicing\ App/OSI-Invoicing/invoicecard.cpp \
+	/home/rpb/Desktop/Qt\ Invoicing\ App/OSI-Invoicing/Qt\ Invoicing\ App/OSI-Invoicing/invoicecard.h \
+	/home/rpb/Desktop/Qt\ Invoicing\ App/OSI-Invoicing/Qt\ Invoicing\ App/OSI-Invoicing/invoicedao.cpp \
+	/home/rpb/Desktop/Qt\ Invoicing\ App/OSI-Invoicing/Qt\ Invoicing\ App/OSI-Invoicing/invoicedao.h \
+	/home/rpb/Desktop/Qt\ Invoicing\ App/OSI-Invoicing/Qt\ Invoicing\ App/OSI-Invoicing/main.cpp \
+	/home/rpb/Desktop/Qt\ Invoicing\ App/OSI-Invoicing/Qt\ Invoicing\ App/OSI-Invoicing/mainwindow.cpp \
+	/home/rpb/Desktop/Qt\ Invoicing\ App/OSI-Invoicing/Qt\ Invoicing\ App/OSI-Invoicing/mainwindow.h \
+	/home/rpb/Desktop/Qt\ Invoicing\ App/OSI-Invoicing/Qt\ Invoicing\ App/OSI-Invoicing/resources.qrc \
+	/home/rpb/Qt/6.10.0/gcc_64/include/QtCore/QMap \
 	/home/rpb/Qt/6.10.0/gcc_64/include/QtCore/QString \
 	/home/rpb/Qt/6.10.0/gcc_64/include/QtCore/QVector \
 	/home/rpb/Qt/6.10.0/gcc_64/include/QtCore/q17memory.h \
@@ -802,7 +814,11 @@ OSI-Invoicing_autogen/timestamp: \
 	/usr/lib/gcc/x86_64-linux-gnu/11/include/stdarg.h \
 	/usr/lib/gcc/x86_64-linux-gnu/11/include/stdbool.h \
 	/usr/lib/gcc/x86_64-linux-gnu/11/include/stddef.h \
-	/home/rpb/Desktop/Qt\ Invoicing\ App/OSI-Invoicing/addclientdialog.ui \
-	/home/rpb/Desktop/Qt\ Invoicing\ App/OSI-Invoicing/contacts_customer.ui \
-	/home/rpb/Desktop/Qt\ Invoicing\ App/OSI-Invoicing/mainwindow.ui \
+	/home/rpb/Desktop/Qt\ Invoicing\ App/OSI-Invoicing/Qt\ Invoicing\ App/OSI-Invoicing/addclientdialog.ui \
+	/home/rpb/Desktop/Qt\ Invoicing\ App/OSI-Invoicing/Qt\ Invoicing\ App/OSI-Invoicing/addinvoicedialog.ui \
+	/home/rpb/Desktop/Qt\ Invoicing\ App/OSI-Invoicing/Qt\ Invoicing\ App/OSI-Invoicing/contacts_customer.ui \
+	/home/rpb/Desktop/Qt\ Invoicing\ App/OSI-Invoicing/Qt\ Invoicing\ App/OSI-Invoicing/contacts_invoices.ui \
+	/home/rpb/Desktop/Qt\ Invoicing\ App/OSI-Invoicing/Qt\ Invoicing\ App/OSI-Invoicing/customercard.ui \
+	/home/rpb/Desktop/Qt\ Invoicing\ App/OSI-Invoicing/Qt\ Invoicing\ App/OSI-Invoicing/invoicecard.ui \
+	/home/rpb/Desktop/Qt\ Invoicing\ App/OSI-Invoicing/Qt\ Invoicing\ App/OSI-Invoicing/mainwindow.ui \
 	/home/rpb/Qt/Tools/CMake/bin/cmake

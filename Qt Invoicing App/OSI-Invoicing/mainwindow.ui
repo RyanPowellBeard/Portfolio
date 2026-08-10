@@ -10,7 +10,7 @@
     <height>648</height>
    </rect>
   </property>
-  <property name="OSI-Invoicing">
+  <property name="OSI-Invoicing" stdset="0">
    <string>MainWindow</string>
   </property>
   <widget class="QWidget" name="centralwidget">
@@ -27,7 +27,7 @@
        <item>
         <widget class="QPushButton" name="CreateInvoice_Button">
          <property name="text">
-          <string>Create Invoice</string>
+          <string>Invoice</string>
          </property>
         </widget>
        </item>
@@ -80,7 +80,7 @@
      <x>0</x>
      <y>0</y>
      <width>800</width>
-     <height>24</height>
+     <height>21</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuFile">
@@ -322,7 +322,7 @@
   </action>
   <action name="actionNew_Invoice">
    <property name="text">
-    <string>New Invoice</string>
+    <string>Invoice</string>
    </property>
   </action>
   <action name="actionRecurring_Invoices">

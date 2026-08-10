@@ -2,6 +2,7 @@
 #include "ui_mainwindow.h"
 #include "DatabaseManager.h"
 #include "contacts_customer.h"
+#include "contacts_invoices.h"
 
 #include <QMdiSubWindow>
 #include <QMessageBox>
@@ -47,7 +48,18 @@ MainWindow::~MainWindow()
 // Create Invoice Button
 void MainWindow::on_CreateInvoice_Button_clicked()
 {
+    // Allocate the Window on the Heap so it persists after this function
+    Contacts_Invoices *invoiceWindow = new Contacts_Invoices(m_dbManager, this);
 
+    // Add sub-window inside the MDI Area
+    // This locks it to the boundaries of the MDI Area
+    QMdiSubWindow *subInvoiceWindow = ui->mdiArea->addSubWindow(invoiceWindow);
+
+    // Deletes the memory automactically when the window is closed
+    subInvoiceWindow->setAttribute(Qt::WA_DeleteOnClose);
+
+    // Opens Window
+    subInvoiceWindow->showMaximized();
 }
 
 // Recieve Payment Button
@@ -274,7 +286,12 @@ void MainWindow::on_actionApp_Version_Information_triggered()
  */
 void MainWindow::on_actionNew_Invoice_triggered()
 {
+    // Same entry point as the Create Invoice button, just reached via the menu
+    Contacts_Invoices *invoiceWindow = new Contacts_Invoices(m_dbManager, this);
 
+    QMdiSubWindow *subInvoiceWindow = ui->mdiArea->addSubWindow(invoiceWindow);
+    subInvoiceWindow->setAttribute(Qt::WA_DeleteOnClose);
+    subInvoiceWindow->showMaximized();
 }
 
 // Recurring Invoice

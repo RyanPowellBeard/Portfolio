@@ -1,4 +1,4 @@
-# Install script for directory: /home/rpb/Desktop/Qt Invoicing App/OSI-Invoicing
+# Install script for directory: /home/rpb/Desktop/Qt Invoicing App/OSI-Invoicing/Qt Invoicing App/OSI-Invoicing
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
@@ -49,7 +49,7 @@ if(CMAKE_INSTALL_COMPONENT STREQUAL "Unspecified" OR NOT CMAKE_INSTALL_COMPONENT
          FILE "$ENV{DESTDIR}${CMAKE_INSTALL_PREFIX}/bin/OSI-Invoicing"
          RPATH "\$ORIGIN:\$ORIGIN/../lib")
   endif()
-  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/bin" TYPE EXECUTABLE FILES "/home/rpb/Desktop/Qt Invoicing App/OSI-Invoicing/build/Desktop_Qt_6_10_0-Debug/OSI-Invoicing")
+  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/bin" TYPE EXECUTABLE FILES "/home/rpb/Desktop/Qt Invoicing App/OSI-Invoicing/Qt Invoicing App/OSI-Invoicing/build/Desktop_Qt_6_10_0-Debug/OSI-Invoicing")
   if(EXISTS "$ENV{DESTDIR}${CMAKE_INSTALL_PREFIX}/bin/OSI-Invoicing" AND
      NOT IS_SYMLINK "$ENV{DESTDIR}${CMAKE_INSTALL_PREFIX}/bin/OSI-Invoicing")
     file(RPATH_CHANGE
@@ -63,7 +63,7 @@ if(CMAKE_INSTALL_COMPONENT STREQUAL "Unspecified" OR NOT CMAKE_INSTALL_COMPONENT
 endif()
 
 if(CMAKE_INSTALL_COMPONENT STREQUAL "Unspecified" OR NOT CMAKE_INSTALL_COMPONENT)
-  include("/home/rpb/Desktop/Qt Invoicing App/OSI-Invoicing/build/Desktop_Qt_6_10_0-Debug/.qt/deploy_OSI_Invoicing_e2fb90a534.cmake")
+  include("/home/rpb/Desktop/Qt Invoicing App/OSI-Invoicing/Qt Invoicing App/OSI-Invoicing/build/Desktop_Qt_6_10_0-Debug/.qt/deploy_OSI_Invoicing_e2fb90a534.cmake")
 endif()
 
 if(CMAKE_INSTALL_COMPONENT)
@@ -81,6 +81,6 @@ endif()
 if(NOT CMAKE_INSTALL_LOCAL_ONLY)
   string(REPLACE ";" "\n" CMAKE_INSTALL_MANIFEST_CONTENT
        "${CMAKE_INSTALL_MANIFEST_FILES}")
-  file(WRITE "/home/rpb/Desktop/Qt Invoicing App/OSI-Invoicing/build/Desktop_Qt_6_10_0-Debug/${CMAKE_INSTALL_MANIFEST}"
+  file(WRITE "/home/rpb/Desktop/Qt Invoicing App/OSI-Invoicing/Qt Invoicing App/OSI-Invoicing/build/Desktop_Qt_6_10_0-Debug/${CMAKE_INSTALL_MANIFEST}"
      "${CMAKE_INSTALL_MANIFEST_CONTENT}")
 endif()

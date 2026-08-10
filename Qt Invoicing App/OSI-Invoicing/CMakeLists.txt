@@ -20,7 +20,12 @@ qt_add_executable(OSI-Invoicing
     client.h
     clientdao.h clientdao.cpp
     addclientdialog.h addclientdialog.cpp addclientdialog.ui
-
+    customercard.h customercard.cpp customercard.ui
+    invoice.h
+    invoicedao.h invoicedao.cpp
+    invoicecard.h invoicecard.cpp invoicecard.ui
+    addinvoicedialog.h addinvoicedialog.cpp addinvoicedialog.ui
+    contacts_invoices.h contacts_invoices.cpp contacts_invoices.ui
 
 )
 

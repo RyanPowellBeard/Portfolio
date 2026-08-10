@@ -1,5 +1,5 @@
-/home/rpb/Desktop/Qt\ Invoicing\ App/OSI-Invoicing/build/Desktop_Qt_6_10_0-Debug/OSI-Invoicing_autogen/EWIEGA46WW/moc_addclientdialog.cpp: /home/rpb/Desktop/Qt\ Invoicing\ App/OSI-Invoicing/addclientdialog.h \
-  /home/rpb/Desktop/Qt\ Invoicing\ App/OSI-Invoicing/build/Desktop_Qt_6_10_0-Debug/OSI-Invoicing_autogen/moc_predefs.h \
+/home/rpb/Desktop/Qt\ Invoicing\ App/OSI-Invoicing/Qt\ Invoicing\ App/OSI-Invoicing/build/Desktop_Qt_6_10_0-Debug/OSI-Invoicing_autogen/EWIEGA46WW/moc_addclientdialog.cpp: /home/rpb/Desktop/Qt\ Invoicing\ App/OSI-Invoicing/Qt\ Invoicing\ App/OSI-Invoicing/addclientdialog.h \
+  /home/rpb/Desktop/Qt\ Invoicing\ App/OSI-Invoicing/Qt\ Invoicing\ App/OSI-Invoicing/build/Desktop_Qt_6_10_0-Debug/OSI-Invoicing_autogen/moc_predefs.h \
   /home/rpb/Qt/6.10.0/gcc_64/include/QtCore/q17memory.h \
   /home/rpb/Qt/6.10.0/gcc_64/include/QtCore/q20functional.h \
   /home/rpb/Qt/6.10.0/gcc_64/include/QtCore/q20iterator.h \

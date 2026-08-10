@@ -152,12 +152,38 @@ bool DatabaseManager::createTables() {
             "status TEXT NOT NULL,"
             "tax_rate INTEGER," // Stored as integer basis points or whole percentage
             "discount_amount INTEGER," // Stored in cents (multiply by 100 on write, divide by 100 on read)
+            "po_number TEXT,"
             "notes TEXT,"
             "FOREIGN KEY(client_id) REFERENCES clients(client_id) ON DELETE SET NULL"
             ");"
             )) {
         qCritical() << "Failed to create Invoice Table:" << query.lastError().text();
         return false;
+    }
+
+    // Migration: databases created before po_number existed won't get it from
+    // CREATE TABLE IF NOT EXISTS above, since that only runs against a table
+    // that doesn't exist yet. Add the column here if it's missing.
+    {
+        bool hasPoNumberColumn = false;
+        QSqlQuery columnCheck(m_db);
+        if (columnCheck.exec("PRAGMA table_info(invoices);")) {
+            while (columnCheck.next()) {
+                if (columnCheck.value("name").toString() == "po_number") {
+                    hasPoNumberColumn = true;
+                    break;
+                }
+            }
+        } else {
+            qCritical() << "Failed to inspect invoices table schema:" << columnCheck.lastError().text();
+        }
+
+        if (!hasPoNumberColumn) {
+            if (!query.exec("ALTER TABLE invoices ADD COLUMN po_number TEXT;")) {
+                qCritical() << "Failed to migrate invoices table (add po_number):" << query.lastError().text();
+                return false;
+            }
+        }
     }
 
     // Services Table

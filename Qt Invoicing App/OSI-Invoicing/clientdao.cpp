@@ -131,3 +131,135 @@ bool ClientDao::insertClient(const Client& client) {
 
     return true;
 }
+
+Client ClientDao::getClientById(int clientId) const {
+    Client client; // id defaults to 0 -> acts as "not found" sentinel
+
+    QSqlDatabase db = m_dbManager.database();
+    if (!db.isOpen()) {
+        qCritical() << "ClientDao::getClientById - Database connection is not open!";
+        return client;
+    }
+
+    QSqlQuery query(db);
+    query.prepare(
+        "SELECT c.client_id, c.first_name, c.last_name, c.business_name, c.email, c.phone_number, c.created_at, "
+        "       a.street_address, a.address_line2, a.city, a.state, a.postal_code, a.country "
+        "FROM clients c "
+        "LEFT JOIN addresses a ON a.client_id = c.client_id AND a.address_type = 'Billing Address' "
+        "WHERE c.client_id = :id;"
+        );
+    query.bindValue(":id", clientId);
+
+    if (!query.exec()) {
+        qCritical() << "Error fetching client by id:" << query.lastError().text();
+        return client;
+    }
+
+    if (query.next()) {
+        client.id = query.value("client_id").toInt();
+        client.firstName = query.value("first_name").toString();
+        client.lastName = query.value("last_name").toString();
+        client.businessName = query.value("business_name").toString();
+        client.email = query.value("email").toString();
+        client.phoneNumber = query.value("phone_number").toString();
+        client.createdAt = query.value("created_at").toString();
+        client.address1 = query.value("street_address").toString();
+        client.address2 = query.value("address_line2").toString();
+        client.city = query.value("city").toString();
+        client.state = query.value("state").toString();
+        client.postalCode = query.value("postal_code").toString();
+        client.country = query.value("country").toString();
+    }
+
+    return client;
+}
+
+bool ClientDao::updateClient(const Client& client) {
+    QSqlDatabase db = m_dbManager.database();
+    if (!db.isOpen()) {
+        qCritical() << "ClientDao::updateClient - Database connection is not open!";
+        return false;
+    }
+
+    db.transaction();
+
+    QSqlQuery query(db);
+    query.prepare(
+        "UPDATE clients SET first_name = :first_name, last_name = :last_name, "
+        "business_name = :business_name, email = :email, phone_number = :phone_number "
+        "WHERE client_id = :client_id;"
+        );
+    query.bindValue(":first_name", client.firstName);
+    query.bindValue(":last_name", client.lastName);
+    query.bindValue(":business_name", client.businessName);
+    query.bindValue(":email", client.email);
+    query.bindValue(":phone_number", client.phoneNumber);
+    query.bindValue(":client_id", client.id);
+
+    if (!query.exec()) {
+        qCritical() << "Error updating client:" << query.lastError().text();
+        db.rollback();
+        return false;
+    }
+
+    // Upsert the billing address row
+    QSqlQuery checkQuery(db);
+    checkQuery.prepare("SELECT address_id FROM addresses WHERE client_id = :client_id AND address_type = 'Billing Address';");
+    checkQuery.bindValue(":client_id", client.id);
+    if (!checkQuery.exec()) {
+        qCritical() << "Error checking existing address:" << checkQuery.lastError().text();
+        db.rollback();
+        return false;
+    }
+
+    if (checkQuery.next()) {
+        QSqlQuery updateAddress(db);
+        updateAddress.prepare(
+            "UPDATE addresses SET street_address = :street_address, address_line2 = :address_line2, "
+            "city = :city, state = :state, postal_code = :postal_code, country = :country "
+            "WHERE client_id = :client_id AND address_type = 'Billing Address';"
+            );
+        updateAddress.bindValue(":street_address", client.address1);
+        updateAddress.bindValue(":address_line2", client.address2);
+        updateAddress.bindValue(":city", client.city);
+        updateAddress.bindValue(":state", client.state);
+        updateAddress.bindValue(":postal_code", client.postalCode);
+        updateAddress.bindValue(":country", client.country);
+        updateAddress.bindValue(":client_id", client.id);
+
+        if (!updateAddress.exec()) {
+            qCritical() << "Error updating address:" << updateAddress.lastError().text();
+            db.rollback();
+            return false;
+        }
+    } else {
+        QSqlQuery insertAddress(db);
+        insertAddress.prepare(
+            "INSERT INTO addresses (client_id, address_type, street_address, address_line2, city, state, postal_code, country) "
+            "VALUES (:client_id, :address_type, :street_address, :address_line2, :city, :state, :postal_code, :country);"
+            );
+        insertAddress.bindValue(":client_id", client.id);
+        insertAddress.bindValue(":address_type", "Billing Address");
+        insertAddress.bindValue(":street_address", client.address1);
+        insertAddress.bindValue(":address_line2", client.address2);
+        insertAddress.bindValue(":city", client.city);
+        insertAddress.bindValue(":state", client.state);
+        insertAddress.bindValue(":postal_code", client.postalCode);
+        insertAddress.bindValue(":country", client.country);
+
+        if (!insertAddress.exec()) {
+            qCritical() << "Error inserting address:" << insertAddress.lastError().text();
+            db.rollback();
+            return false;
+        }
+    }
+
+    if (!db.commit()) {
+        qCritical() << "ClientDao::updateClient - Failed to commit transaction:" << db.lastError().text();
+        db.rollback();
+        return false;
+    }
+
+    return true;
+}

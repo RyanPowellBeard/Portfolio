@@ -20,6 +20,12 @@ public:
     // Insert a new client, address
     bool insertClient(const Client& client);
 
+    // Fetch a single client by id (returned Client.id == 0 if not found)
+    Client getClientById(int clientId) const;
+
+    // Update an existing client's core fields + billing address
+    bool updateClient(const Client& client);
+
 private:
     DatabaseManager& m_dbManager;
 };

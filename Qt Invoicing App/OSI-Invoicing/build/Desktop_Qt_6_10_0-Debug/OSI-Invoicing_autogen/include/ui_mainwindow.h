@@ -253,7 +253,7 @@ public:
         MainWindow->setCentralWidget(centralwidget);
         menubar = new QMenuBar(MainWindow);
         menubar->setObjectName("menubar");
-        menubar->setGeometry(QRect(0, 0, 800, 24));
+        menubar->setGeometry(QRect(0, 0, 800, 21));
         menuFile = new QMenu(menubar);
         menuFile->setObjectName("menuFile");
         menuEdit = new QMenu(menubar);
@@ -370,6 +370,7 @@ public:
 
     void retranslateUi(QMainWindow *MainWindow)
     {
+        MainWindow->setProperty("OSI-Invoicing", QVariant(QCoreApplication::translate("MainWindow", "MainWindow", nullptr)));
         actionSave->setText(QCoreApplication::translate("MainWindow", "Save", nullptr));
         actionSave_As->setText(QCoreApplication::translate("MainWindow", "Save As", nullptr));
         actionImport->setText(QCoreApplication::translate("MainWindow", "Import", nullptr));
@@ -390,7 +391,7 @@ public:
         actionRefresh_Page->setText(QCoreApplication::translate("MainWindow", "Refresh Page", nullptr));
         actionDashboard->setText(QCoreApplication::translate("MainWindow", "Dashboard", nullptr));
         actionTaxes->setText(QCoreApplication::translate("MainWindow", "Taxes", nullptr));
-        actionNew_Invoice->setText(QCoreApplication::translate("MainWindow", "New Invoice", nullptr));
+        actionNew_Invoice->setText(QCoreApplication::translate("MainWindow", "Invoice", nullptr));
         actionRecurring_Invoices->setText(QCoreApplication::translate("MainWindow", "Recurring Invoices", nullptr));
         actionEstimates_Quotes->setText(QCoreApplication::translate("MainWindow", "Estimates/Quotes", nullptr));
         actionCredit_Notes->setText(QCoreApplication::translate("MainWindow", "Credit Notes", nullptr));
@@ -418,7 +419,7 @@ public:
         actionUpdates->setText(QCoreApplication::translate("MainWindow", "Updates", nullptr));
         actionApp_Version_Information->setText(QCoreApplication::translate("MainWindow", "App Version Information", nullptr));
         actionAbout_Qt->setText(QCoreApplication::translate("MainWindow", "About Qt", nullptr));
-        CreateInvoice_Button->setText(QCoreApplication::translate("MainWindow", "Create Invoice", nullptr));
+        CreateInvoice_Button->setText(QCoreApplication::translate("MainWindow", "Invoice", nullptr));
         ReceivePayment_Button->setText(QCoreApplication::translate("MainWindow", "Receive Payment", nullptr));
         Statements_Button->setText(QCoreApplication::translate("MainWindow", "Statements", nullptr));
         Customers_Button->setText(QCoreApplication::translate("MainWindow", "Customers", nullptr));
@@ -435,7 +436,6 @@ public:
         menuReports->setTitle(QCoreApplication::translate("MainWindow", "Reports", nullptr));
         menuSettings->setTitle(QCoreApplication::translate("MainWindow", "Settings", nullptr));
         menuHelp->setTitle(QCoreApplication::translate("MainWindow", "Help", nullptr));
-        (void)MainWindow;
     } // retranslateUi
 
 };

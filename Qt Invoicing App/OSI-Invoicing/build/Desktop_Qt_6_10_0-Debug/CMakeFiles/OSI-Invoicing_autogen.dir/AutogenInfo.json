@@ -1,18 +1,18 @@
 {
-	"BUILD_DIR" : "/home/rpb/Desktop/Qt Invoicing App/OSI-Invoicing/build/Desktop_Qt_6_10_0-Debug/OSI-Invoicing_autogen",
-	"CMAKE_BINARY_DIR" : "/home/rpb/Desktop/Qt Invoicing App/OSI-Invoicing/build/Desktop_Qt_6_10_0-Debug",
-	"CMAKE_CURRENT_BINARY_DIR" : "/home/rpb/Desktop/Qt Invoicing App/OSI-Invoicing/build/Desktop_Qt_6_10_0-Debug",
-	"CMAKE_CURRENT_SOURCE_DIR" : "/home/rpb/Desktop/Qt Invoicing App/OSI-Invoicing",
+	"BUILD_DIR" : "/home/rpb/Desktop/Qt Invoicing App/OSI-Invoicing/Qt Invoicing App/OSI-Invoicing/build/Desktop_Qt_6_10_0-Debug/OSI-Invoicing_autogen",
+	"CMAKE_BINARY_DIR" : "/home/rpb/Desktop/Qt Invoicing App/OSI-Invoicing/Qt Invoicing App/OSI-Invoicing/build/Desktop_Qt_6_10_0-Debug",
+	"CMAKE_CURRENT_BINARY_DIR" : "/home/rpb/Desktop/Qt Invoicing App/OSI-Invoicing/Qt Invoicing App/OSI-Invoicing/build/Desktop_Qt_6_10_0-Debug",
+	"CMAKE_CURRENT_SOURCE_DIR" : "/home/rpb/Desktop/Qt Invoicing App/OSI-Invoicing/Qt Invoicing App/OSI-Invoicing",
 	"CMAKE_EXECUTABLE" : "/home/rpb/Qt/Tools/CMake/bin/cmake",
 	"CMAKE_LIST_FILES" : 
 	[
-		"/home/rpb/Desktop/Qt Invoicing App/OSI-Invoicing/CMakeLists.txt",
-		"/home/rpb/Desktop/Qt Invoicing App/OSI-Invoicing/build/Desktop_Qt_6_10_0-Debug/.qtc/package-manager/auto-setup.cmake",
+		"/home/rpb/Desktop/Qt Invoicing App/OSI-Invoicing/Qt Invoicing App/OSI-Invoicing/CMakeLists.txt",
+		"/home/rpb/Desktop/Qt Invoicing App/OSI-Invoicing/Qt Invoicing App/OSI-Invoicing/build/Desktop_Qt_6_10_0-Debug/.qtc/package-manager/auto-setup.cmake",
 		"/home/rpb/Qt/Tools/CMake/share/cmake-3.30/Modules/CMakeDetermineSystem.cmake",
 		"/home/rpb/Qt/Tools/CMake/share/cmake-3.30/Modules/CMakeSystem.cmake.in",
-		"/home/rpb/Desktop/Qt Invoicing App/OSI-Invoicing/build/Desktop_Qt_6_10_0-Debug/CMakeFiles/3.30.5/CMakeSystem.cmake",
+		"/home/rpb/Desktop/Qt Invoicing App/OSI-Invoicing/Qt Invoicing App/OSI-Invoicing/build/Desktop_Qt_6_10_0-Debug/CMakeFiles/3.30.5/CMakeSystem.cmake",
 		"/home/rpb/Qt/Tools/CMake/share/cmake-3.30/Modules/CMakeNinjaFindMake.cmake",
-		"/home/rpb/Desktop/Qt Invoicing App/OSI-Invoicing/build/Desktop_Qt_6_10_0-Debug/.qtc/package-manager/maintenance_tool_provider.cmake",
+		"/home/rpb/Desktop/Qt Invoicing App/OSI-Invoicing/Qt Invoicing App/OSI-Invoicing/build/Desktop_Qt_6_10_0-Debug/.qtc/package-manager/maintenance_tool_provider.cmake",
 		"/home/rpb/Qt/Tools/CMake/share/cmake-3.30/Modules/CMakeSystemSpecificInitialize.cmake",
 		"/home/rpb/Qt/Tools/CMake/share/cmake-3.30/Modules/Platform/Linux-Initialize.cmake",
 		"/home/rpb/Qt/Tools/CMake/share/cmake-3.30/Modules/CMakeDetermineCXXCompiler.cmake",
@@ -65,7 +65,7 @@
 		"/home/rpb/Qt/Tools/CMake/share/cmake-3.30/Modules/CMakeFindBinUtils.cmake",
 		"/home/rpb/Qt/Tools/CMake/share/cmake-3.30/Modules/Compiler/GNU-FindBinUtils.cmake",
 		"/home/rpb/Qt/Tools/CMake/share/cmake-3.30/Modules/CMakeCXXCompiler.cmake.in",
-		"/home/rpb/Desktop/Qt Invoicing App/OSI-Invoicing/build/Desktop_Qt_6_10_0-Debug/CMakeFiles/3.30.5/CMakeCXXCompiler.cmake",
+		"/home/rpb/Desktop/Qt Invoicing App/OSI-Invoicing/Qt Invoicing App/OSI-Invoicing/build/Desktop_Qt_6_10_0-Debug/CMakeFiles/3.30.5/CMakeCXXCompiler.cmake",
 		"/home/rpb/Qt/Tools/CMake/share/cmake-3.30/Modules/CMakeSystemSpecificInformation.cmake",
 		"/home/rpb/Qt/Tools/CMake/share/cmake-3.30/Modules/CMakeGenericSystem.cmake",
 		"/home/rpb/Qt/Tools/CMake/share/cmake-3.30/Modules/CMakeInitializeConfigs.cmake",
@@ -91,7 +91,7 @@
 		"/home/rpb/Qt/Tools/CMake/share/cmake-3.30/Modules/CMakeDetermineCompilerSupport.cmake",
 		"/home/rpb/Qt/Tools/CMake/share/cmake-3.30/Modules/Internal/FeatureTesting.cmake",
 		"/home/rpb/Qt/Tools/CMake/share/cmake-3.30/Modules/CMakeCXXCompiler.cmake.in",
-		"/home/rpb/Desktop/Qt Invoicing App/OSI-Invoicing/build/Desktop_Qt_6_10_0-Debug/CMakeFiles/3.30.5/CMakeCXXCompiler.cmake",
+		"/home/rpb/Desktop/Qt Invoicing App/OSI-Invoicing/Qt Invoicing App/OSI-Invoicing/build/Desktop_Qt_6_10_0-Debug/CMakeFiles/3.30.5/CMakeCXXCompiler.cmake",
 		"/home/rpb/Qt/6.10.0/gcc_64/lib/cmake/Qt6Core/Qt6CoreConfigVersion.cmake",
 		"/home/rpb/Qt/6.10.0/gcc_64/lib/cmake/Qt6Core/Qt6CoreConfigVersionImpl.cmake",
 		"/home/rpb/Qt/6.10.0/gcc_64/lib/cmake/Qt6Core/Qt6CoreConfig.cmake",
@@ -517,54 +517,90 @@
 		"/home/rpb/Qt/Tools/CMake/share/cmake-3.30/Modules/CMakeFindDependencyMacro.cmake",
 		"/home/rpb/Qt/6.10.0/gcc_64/lib/cmake/Qt6/Qt6Dependencies.cmake",
 		"/home/rpb/Qt/Tools/CMake/share/cmake-3.30/Modules/GNUInstallDirs.cmake",
-		"/home/rpb/Desktop/Qt Invoicing App/OSI-Invoicing/resources.qrc"
+		"/home/rpb/Desktop/Qt Invoicing App/OSI-Invoicing/Qt Invoicing App/OSI-Invoicing/resources.qrc"
 	],
-	"CMAKE_SOURCE_DIR" : "/home/rpb/Desktop/Qt Invoicing App/OSI-Invoicing",
+	"CMAKE_SOURCE_DIR" : "/home/rpb/Desktop/Qt Invoicing App/OSI-Invoicing/Qt Invoicing App/OSI-Invoicing",
 	"CROSS_CONFIG" : false,
-	"DEP_FILE" : "/home/rpb/Desktop/Qt Invoicing App/OSI-Invoicing/build/Desktop_Qt_6_10_0-Debug/OSI-Invoicing_autogen/deps",
+	"DEP_FILE" : "/home/rpb/Desktop/Qt Invoicing App/OSI-Invoicing/Qt Invoicing App/OSI-Invoicing/build/Desktop_Qt_6_10_0-Debug/OSI-Invoicing_autogen/deps",
 	"DEP_FILE_RULE_NAME" : "OSI-Invoicing_autogen/timestamp",
 	"HEADERS" : 
 	[
 		[
-			"/home/rpb/Desktop/Qt Invoicing App/OSI-Invoicing/DatabaseManager.h",
+			"/home/rpb/Desktop/Qt Invoicing App/OSI-Invoicing/Qt Invoicing App/OSI-Invoicing/DatabaseManager.h",
 			"MU",
 			"EWIEGA46WW/moc_DatabaseManager.cpp",
 			null
 		],
 		[
-			"/home/rpb/Desktop/Qt Invoicing App/OSI-Invoicing/addclientdialog.h",
+			"/home/rpb/Desktop/Qt Invoicing App/OSI-Invoicing/Qt Invoicing App/OSI-Invoicing/addclientdialog.h",
 			"MU",
 			"EWIEGA46WW/moc_addclientdialog.cpp",
 			null
 		],
 		[
-			"/home/rpb/Desktop/Qt Invoicing App/OSI-Invoicing/client.h",
+			"/home/rpb/Desktop/Qt Invoicing App/OSI-Invoicing/Qt Invoicing App/OSI-Invoicing/addinvoicedialog.h",
+			"MU",
+			"EWIEGA46WW/moc_addinvoicedialog.cpp",
+			null
+		],
+		[
+			"/home/rpb/Desktop/Qt Invoicing App/OSI-Invoicing/Qt Invoicing App/OSI-Invoicing/client.h",
 			"MU",
 			"EWIEGA46WW/moc_client.cpp",
 			null
 		],
 		[
-			"/home/rpb/Desktop/Qt Invoicing App/OSI-Invoicing/clientdao.h",
+			"/home/rpb/Desktop/Qt Invoicing App/OSI-Invoicing/Qt Invoicing App/OSI-Invoicing/clientdao.h",
 			"MU",
 			"EWIEGA46WW/moc_clientdao.cpp",
 			null
 		],
 		[
-			"/home/rpb/Desktop/Qt Invoicing App/OSI-Invoicing/contacts_customer.h",
+			"/home/rpb/Desktop/Qt Invoicing App/OSI-Invoicing/Qt Invoicing App/OSI-Invoicing/contacts_customer.h",
 			"MU",
 			"EWIEGA46WW/moc_contacts_customer.cpp",
 			null
 		],
 		[
-			"/home/rpb/Desktop/Qt Invoicing App/OSI-Invoicing/mainwindow.h",
+			"/home/rpb/Desktop/Qt Invoicing App/OSI-Invoicing/Qt Invoicing App/OSI-Invoicing/contacts_invoices.h",
+			"MU",
+			"EWIEGA46WW/moc_contacts_invoices.cpp",
+			null
+		],
+		[
+			"/home/rpb/Desktop/Qt Invoicing App/OSI-Invoicing/Qt Invoicing App/OSI-Invoicing/customercard.h",
+			"MU",
+			"EWIEGA46WW/moc_customercard.cpp",
+			null
+		],
+		[
+			"/home/rpb/Desktop/Qt Invoicing App/OSI-Invoicing/Qt Invoicing App/OSI-Invoicing/invoice.h",
+			"MU",
+			"EWIEGA46WW/moc_invoice.cpp",
+			null
+		],
+		[
+			"/home/rpb/Desktop/Qt Invoicing App/OSI-Invoicing/Qt Invoicing App/OSI-Invoicing/invoicecard.h",
+			"MU",
+			"EWIEGA46WW/moc_invoicecard.cpp",
+			null
+		],
+		[
+			"/home/rpb/Desktop/Qt Invoicing App/OSI-Invoicing/Qt Invoicing App/OSI-Invoicing/invoicedao.h",
+			"MU",
+			"EWIEGA46WW/moc_invoicedao.cpp",
+			null
+		],
+		[
+			"/home/rpb/Desktop/Qt Invoicing App/OSI-Invoicing/Qt Invoicing App/OSI-Invoicing/mainwindow.h",
 			"MU",
 			"EWIEGA46WW/moc_mainwindow.cpp",
 			null
 		]
 	],
 	"HEADER_EXTENSIONS" : [ "h", "hh", "h++", "hm", "hpp", "hxx", "in", "txx" ],
-	"INCLUDE_DIR" : "/home/rpb/Desktop/Qt Invoicing App/OSI-Invoicing/build/Desktop_Qt_6_10_0-Debug/OSI-Invoicing_autogen/include",
-	"MOC_COMPILATION_FILE" : "/home/rpb/Desktop/Qt Invoicing App/OSI-Invoicing/build/Desktop_Qt_6_10_0-Debug/OSI-Invoicing_autogen/mocs_compilation.cpp",
+	"INCLUDE_DIR" : "/home/rpb/Desktop/Qt Invoicing App/OSI-Invoicing/Qt Invoicing App/OSI-Invoicing/build/Desktop_Qt_6_10_0-Debug/OSI-Invoicing_autogen/include",
+	"MOC_COMPILATION_FILE" : "/home/rpb/Desktop/Qt Invoicing App/OSI-Invoicing/Qt Invoicing App/OSI-Invoicing/build/Desktop_Qt_6_10_0-Debug/OSI-Invoicing_autogen/mocs_compilation.cpp",
 	"MOC_DEFINITIONS" : [ "QT_CORE_LIB", "QT_GUI_LIB", "QT_SQL_LIB", "QT_WIDGETS_LIB" ],
 	"MOC_DEPEND_FILTERS" : 
 	[
@@ -608,46 +644,71 @@
 		"-c",
 		"/home/rpb/Qt/Tools/CMake/share/cmake-3.30/Modules/CMakeCXXCompilerABI.cpp"
 	],
-	"MOC_PREDEFS_FILE" : "/home/rpb/Desktop/Qt Invoicing App/OSI-Invoicing/build/Desktop_Qt_6_10_0-Debug/OSI-Invoicing_autogen/moc_predefs.h",
+	"MOC_PREDEFS_FILE" : "/home/rpb/Desktop/Qt Invoicing App/OSI-Invoicing/Qt Invoicing App/OSI-Invoicing/build/Desktop_Qt_6_10_0-Debug/OSI-Invoicing_autogen/moc_predefs.h",
 	"MOC_RELAXED_MODE" : false,
 	"MOC_SKIP" : [],
 	"MULTI_CONFIG" : false,
 	"PARALLEL" : 2,
-	"PARSE_CACHE_FILE" : "/home/rpb/Desktop/Qt Invoicing App/OSI-Invoicing/build/Desktop_Qt_6_10_0-Debug/CMakeFiles/OSI-Invoicing_autogen.dir/ParseCache.txt",
+	"PARSE_CACHE_FILE" : "/home/rpb/Desktop/Qt Invoicing App/OSI-Invoicing/Qt Invoicing App/OSI-Invoicing/build/Desktop_Qt_6_10_0-Debug/CMakeFiles/OSI-Invoicing_autogen.dir/ParseCache.txt",
 	"QT_MOC_EXECUTABLE" : "/home/rpb/Qt/6.10.0/gcc_64/libexec/moc",
 	"QT_UIC_EXECUTABLE" : "/home/rpb/Qt/6.10.0/gcc_64/libexec/uic",
 	"QT_VERSION_MAJOR" : 6,
 	"QT_VERSION_MINOR" : 10,
-	"SETTINGS_FILE" : "/home/rpb/Desktop/Qt Invoicing App/OSI-Invoicing/build/Desktop_Qt_6_10_0-Debug/CMakeFiles/OSI-Invoicing_autogen.dir/AutogenUsed.txt",
+	"SETTINGS_FILE" : "/home/rpb/Desktop/Qt Invoicing App/OSI-Invoicing/Qt Invoicing App/OSI-Invoicing/build/Desktop_Qt_6_10_0-Debug/CMakeFiles/OSI-Invoicing_autogen.dir/AutogenUsed.txt",
 	"SOURCES" : 
 	[
 		[
-			"/home/rpb/Desktop/Qt Invoicing App/OSI-Invoicing/DatabaseManager.cpp",
+			"/home/rpb/Desktop/Qt Invoicing App/OSI-Invoicing/Qt Invoicing App/OSI-Invoicing/DatabaseManager.cpp",
 			"MU",
 			null
 		],
 		[
-			"/home/rpb/Desktop/Qt Invoicing App/OSI-Invoicing/addclientdialog.cpp",
+			"/home/rpb/Desktop/Qt Invoicing App/OSI-Invoicing/Qt Invoicing App/OSI-Invoicing/addclientdialog.cpp",
 			"MU",
 			null
 		],
 		[
-			"/home/rpb/Desktop/Qt Invoicing App/OSI-Invoicing/clientdao.cpp",
+			"/home/rpb/Desktop/Qt Invoicing App/OSI-Invoicing/Qt Invoicing App/OSI-Invoicing/addinvoicedialog.cpp",
 			"MU",
 			null
 		],
 		[
-			"/home/rpb/Desktop/Qt Invoicing App/OSI-Invoicing/contacts_customer.cpp",
+			"/home/rpb/Desktop/Qt Invoicing App/OSI-Invoicing/Qt Invoicing App/OSI-Invoicing/clientdao.cpp",
 			"MU",
 			null
 		],
 		[
-			"/home/rpb/Desktop/Qt Invoicing App/OSI-Invoicing/main.cpp",
+			"/home/rpb/Desktop/Qt Invoicing App/OSI-Invoicing/Qt Invoicing App/OSI-Invoicing/contacts_customer.cpp",
 			"MU",
 			null
 		],
 		[
-			"/home/rpb/Desktop/Qt Invoicing App/OSI-Invoicing/mainwindow.cpp",
+			"/home/rpb/Desktop/Qt Invoicing App/OSI-Invoicing/Qt Invoicing App/OSI-Invoicing/contacts_invoices.cpp",
+			"MU",
+			null
+		],
+		[
+			"/home/rpb/Desktop/Qt Invoicing App/OSI-Invoicing/Qt Invoicing App/OSI-Invoicing/customercard.cpp",
+			"MU",
+			null
+		],
+		[
+			"/home/rpb/Desktop/Qt Invoicing App/OSI-Invoicing/Qt Invoicing App/OSI-Invoicing/invoicecard.cpp",
+			"MU",
+			null
+		],
+		[
+			"/home/rpb/Desktop/Qt Invoicing App/OSI-Invoicing/Qt Invoicing App/OSI-Invoicing/invoicedao.cpp",
+			"MU",
+			null
+		],
+		[
+			"/home/rpb/Desktop/Qt Invoicing App/OSI-Invoicing/Qt Invoicing App/OSI-Invoicing/main.cpp",
+			"MU",
+			null
+		],
+		[
+			"/home/rpb/Desktop/Qt Invoicing App/OSI-Invoicing/Qt Invoicing App/OSI-Invoicing/mainwindow.cpp",
 			"MU",
 			null
 		]
