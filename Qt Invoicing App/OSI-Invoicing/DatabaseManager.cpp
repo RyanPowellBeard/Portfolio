@@ -160,7 +160,8 @@ bool DatabaseManager::createTables() {
         qCritical() << "Failed to create Invoice Table:" << query.lastError().text();
         return false;
     }
-
+    // This is an example of how to add to db table on existing db and will be removed on on production version.
+    //----------------------------------------------------------------------------------------------------------
     // Migration: databases created before po_number existed won't get it from
     // CREATE TABLE IF NOT EXISTS above, since that only runs against a table
     // that doesn't exist yet. Add the column here if it's missing.
