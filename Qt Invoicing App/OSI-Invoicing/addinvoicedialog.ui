@@ -369,12 +369,54 @@
     </column>
    </widget>
   </widget>
-  <widget class="QFrame" name="Notes_Frame">
+  <widget class="QFrame" name="Status_Frame">
    <property name="geometry">
     <rect>
      <x>0</x>
      <y>380</y>
-     <width>381</width>
+     <width>140</width>
+     <height>101</height>
+    </rect>
+   </property>
+   <property name="frameShape">
+    <enum>QFrame::Shape::StyledPanel</enum>
+   </property>
+   <property name="frameShadow">
+    <enum>QFrame::Shadow::Raised</enum>
+   </property>
+   <widget class="QLabel" name="Status_Label">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>10</y>
+      <width>56</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Status:</string>
+    </property>
+    <property name="buddy">
+     <cstring>InvoiceStatus_ComboBox</cstring>
+    </property>
+   </widget>
+   <widget class="QComboBox" name="InvoiceStatus_ComboBox">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>30</y>
+      <width>120</width>
+      <height>24</height>
+     </rect>
+    </property>
+   </widget>
+  </widget>
+  <widget class="QFrame" name="Notes_Frame">
+   <property name="geometry">
+    <rect>
+     <x>150</x>
+     <y>380</y>
+     <width>300</width>
      <height>101</height>
     </rect>
    </property>
@@ -405,7 +447,7 @@
      <rect>
       <x>0</x>
       <y>30</y>
-      <width>371</width>
+      <width>290</width>
       <height>65</height>
      </rect>
     </property>

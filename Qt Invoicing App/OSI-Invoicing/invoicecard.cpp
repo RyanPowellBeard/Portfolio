@@ -3,6 +3,7 @@
 #include "DatabaseManager.h"
 #include "invoicedao.h"
 #include "clientdao.h"
+#include "invoicestatusguard.h"
 
 #include <QMessageBox>
 #include <QDate>
@@ -106,6 +107,14 @@ void InvoiceCard::on_Save_PushButton_clicked()
 
     if (updated.dueDate < updated.issueDate) {
         QMessageBox::warning(this, "Validation Error", "Due date cannot be before the issue date.");
+        return;
+    }
+
+    // Only confirm when status is actually being changed to something
+    // non-Draft in this edit -- an invoice that was already "Sent" and
+    // stays "Sent" while you just fix a typo in Notes shouldn't re-prompt
+    // every time you hit Save.
+    if (updated.status != m_originalInvoice.status && !confirmNonDraftInvoiceStatus(this, updated.status)) {
         return;
     }
 

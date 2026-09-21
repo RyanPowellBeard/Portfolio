@@ -115,6 +115,8 @@ bool DatabaseManager::createTables() {
             "business_name TEXT,"
             "email TEXT,"
             "phone_number TEXT,"
+            "tax_exempt BOOLEAN,"
+            "net_terms TEXT,"
             "created_at TEXT DEFAULT CURRENT_TIMESTAMP"
             ");"
             )) {
@@ -151,6 +153,7 @@ bool DatabaseManager::createTables() {
             "due_date TEXT,"
             "status TEXT NOT NULL,"
             "tax_rate INTEGER," // Stored as integer basis points or whole percentage
+            "taxable INTEGER DEFAULT 1 NOT NULL CHECK (taxable IN (0, 1))," // Invoice-wide Taxable/Tax Exempt toggle
             "discount_amount INTEGER," // Stored in cents (multiply by 100 on write, divide by 100 on read)
             "po_number TEXT,"
             "notes TEXT,"
@@ -160,32 +163,6 @@ bool DatabaseManager::createTables() {
         qCritical() << "Failed to create Invoice Table:" << query.lastError().text();
         return false;
     }
-    // This is an example of how to add to db table on existing db and will be removed on on production version.
-    //----------------------------------------------------------------------------------------------------------
-    // Migration: databases created before po_number existed won't get it from
-    // CREATE TABLE IF NOT EXISTS above, since that only runs against a table
-    // that doesn't exist yet. Add the column here if it's missing.
-    {
-        bool hasPoNumberColumn = false;
-        QSqlQuery columnCheck(m_db);
-        if (columnCheck.exec("PRAGMA table_info(invoices);")) {
-            while (columnCheck.next()) {
-                if (columnCheck.value("name").toString() == "po_number") {
-                    hasPoNumberColumn = true;
-                    break;
-                }
-            }
-        } else {
-            qCritical() << "Failed to inspect invoices table schema:" << columnCheck.lastError().text();
-        }
-
-        if (!hasPoNumberColumn) {
-            if (!query.exec("ALTER TABLE invoices ADD COLUMN po_number TEXT;")) {
-                qCritical() << "Failed to migrate invoices table (add po_number):" << query.lastError().text();
-                return false;
-            }
-        }
-    }
 
     // Services Table
     if (!query.exec(
@@ -194,6 +171,7 @@ bool DatabaseManager::createTables() {
             "service_name TEXT NOT NULL,"
             "service_description TEXT,"
             "service_price INTEGER NOT NULL," // Stored in cents
+            "taxable BOOLEAN," // True for taxable
             "is_active INTEGER DEFAULT 1 NOT NULL CHECK (is_active IN (0, 1))"
             ");"
             )) {
@@ -201,31 +179,90 @@ bool DatabaseManager::createTables() {
         return false;
     }
 
+    // Tax Table
+    if (!query.exec(
+            "CREATE TABLE IF NOT EXISTS tax_table ("
+            "tax_id INTEGER PRIMARY KEY AUTOINCREMENT,"
+            "tax_name TEXT NOT NULL,"
+            "tax_rate INTEGER NOT NULL," // Stored as integer basis points or whole percentage
+            "tax_is_active INTERGER DEFAULT 1 NOT NULL CHECK (tax_is_active IN (0, 1))"
+            ");"
+            )) {
+        qCritical() << "Failed to create Tax Table:" << query.lastError().text();
+        return false;
+    }
+
     // Invoice Items Table
-    // FIX: Explicitly ROUND and CAST quantity * price to INTEGER to eliminate floating point issues in SQLite
     if (!query.exec(
             "CREATE TABLE IF NOT EXISTS invoice_items ("
             "item_id INTEGER PRIMARY KEY AUTOINCREMENT,"
             "invoice_id INTEGER NOT NULL,"
             "service_id INTEGER,"
+            "tax_id INTEGER," // NULL = No Tax / exempt on this line. FK to tax_table.
             "description TEXT,"
             "quantity REAL NOT NULL DEFAULT 1.00,"
             "snapshot_unit_price INTEGER NOT NULL," // Price in cents frozen at time of invoice creation
             "line_total INTEGER GENERATED ALWAYS AS (CAST(ROUND(quantity * snapshot_unit_price) AS INTEGER)) STORED,"
             "FOREIGN KEY(invoice_id) REFERENCES invoices(invoice_id) ON DELETE CASCADE,"
-            "FOREIGN KEY(service_id) REFERENCES services(service_id) ON DELETE SET NULL"
+            "FOREIGN KEY(service_id) REFERENCES services(service_id) ON DELETE SET NULL,"
+            "FOREIGN KEY(tax_id) REFERENCES tax_table(tax_id) ON DELETE SET NULL"
             ");"
             )) {
         qCritical() << "Failed to create Invoice Items Table:" << query.lastError().text();
         return false;
     }
 
+    // Payments Table -- backs cash-basis reporting (Company Profile's
+    // "accrual" flag decides whether reports use invoices.issue_date or
+    // this table's payment_date). A single invoice can have multiple rows
+    // here (partial payments); nothing currently assumes one-payment-per-invoice.
+    // With Cash reporting sales tax needs to be reported at the time money transfers hands.
+    if (!query.exec(
+            "CREATE TABLE IF NOT EXISTS payments ("
+            "payment_id INTEGER PRIMARY KEY AUTOINCREMENT,"
+            "invoice_id INTEGER NOT NULL,"
+            "payment_date TEXT NOT NULL,"
+            "amount INTEGER NOT NULL," // Stored in cents
+            "method TEXT,"
+            "notes TEXT,"
+            "FOREIGN KEY(invoice_id) REFERENCES invoices(invoice_id) ON DELETE CASCADE"
+            ");"
+            )) {
+        qCritical() << "Failed to create Payments Table:" << query.lastError().text();
+        return false;
+    }
+
+    // Company Profile Settings
+    if (!query.exec(
+            "CREATE TABLE IF NOT EXISTS company_profile ("
+            "company_id INTEGER PRIMARY KEY CHECK (company_id = 1),"
+            "company_name TEXT NOT NULL,"
+            "company_address TEXT NOT NULL,"
+            "company_city TEXT NOT NULL,"
+            "company_state TEXT NOT NULL,"
+            "company_zip TEXT NOT NULL,"
+            "company_phone TEXT,"
+            "company_email TEXT,"
+            "accrual BOOLEAN," // True for accrual False for cash
+            "late_fees INTEGER," // Percentage or flat-fee late penalties
+            "taxid_ein TEXT,"
+            "logo BLOB"
+            ");"
+            )) {
+        qCritical() << "Failed to create Company Profile Table:" << query.lastError().text();
+        return false;
+    }
+
+
     // Create Performance Indexes
     query.exec("CREATE INDEX IF NOT EXISTS idx_clients_names ON clients(last_name, first_name, business_name);");
     query.exec("CREATE INDEX IF NOT EXISTS idx_addresses_client ON addresses(client_id);");
     query.exec("CREATE INDEX IF NOT EXISTS idx_invoices_client ON invoices(client_id);");
     query.exec("CREATE INDEX IF NOT EXISTS idx_invoice_items_invoice ON invoice_items(invoice_id);");
+    query.exec("CREATE INDEX IF NOT EXISTS idx_invoice_items_tax ON invoice_items(tax_id);");
     query.exec("CREATE INDEX IF NOT EXISTS idx_invoice_number ON invoices(invoice_number);");
+    query.exec("CREATE INDEX IF NOT EXISTS idx_payments_invoice ON payments(invoice_id);");
+    query.exec("CREATE INDEX IF NOT EXISTS idx_payments_date ON payments(payment_date);");
 
     return true;
 }

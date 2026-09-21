@@ -19,6 +19,7 @@ struct Client {
     QString postalCode;
     QString country;
     QString createdAt;
+    bool taxExempt{false};
 };
 
 #endif // CLIENT_H

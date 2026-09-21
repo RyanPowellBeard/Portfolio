@@ -1,23 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>CustomerCard</class>
- <widget class="QWidget" name="CustomerCard">
+ <class>CompanyProfile</class>
+ <widget class="QWidget" name="CompanyProfile">
   <property name="geometry">
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>380</width>
-    <height>490</height>
+    <width>400</width>
+    <height>480</height>
    </rect>
   </property>
   <property name="maximumSize">
    <size>
-    <width>380</width>
-    <height>490</height>
+    <width>450</width>
+    <height>500</height>
    </size>
   </property>
   <property name="windowTitle">
-   <string>Customer</string>
+   <string>Company Profile</string>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout">
    <item>
@@ -30,97 +30,32 @@
      </property>
      <layout class="QFormLayout" name="formLayout">
       <item row="0" column="0">
-       <widget class="QLabel" name="FirstName_Label">
+       <widget class="QLabel" name="CompanyName_Label">
         <property name="text">
-         <string>First Name:</string>
+         <string>Company Name:</string>
         </property>
         <property name="buddy">
-         <cstring>FirstName_LineEdit</cstring>
+         <cstring>CompanyName_LineEdit</cstring>
         </property>
        </widget>
       </item>
       <item row="0" column="1">
-       <widget class="QLineEdit" name="FirstName_LineEdit"/>
+       <widget class="QLineEdit" name="CompanyName_LineEdit"/>
       </item>
       <item row="1" column="0">
-       <widget class="QLabel" name="LastName_Label">
+       <widget class="QLabel" name="Address_Label">
         <property name="text">
-         <string>Last Name:</string>
+         <string>Address:</string>
         </property>
         <property name="buddy">
-         <cstring>LastName_LineEdit</cstring>
+         <cstring>Address_LineEdit</cstring>
         </property>
        </widget>
       </item>
       <item row="1" column="1">
-       <widget class="QLineEdit" name="LastName_LineEdit"/>
+       <widget class="QLineEdit" name="Address_LineEdit"/>
       </item>
       <item row="2" column="0">
-       <widget class="QLabel" name="BusinessName_Label">
-        <property name="text">
-         <string>Business Name:</string>
-        </property>
-        <property name="buddy">
-         <cstring>BusinessName_LineEdit</cstring>
-        </property>
-       </widget>
-      </item>
-      <item row="2" column="1">
-       <widget class="QLineEdit" name="BusinessName_LineEdit"/>
-      </item>
-      <item row="3" column="0">
-       <widget class="QLabel" name="Email_Label">
-        <property name="text">
-         <string>Email:</string>
-        </property>
-        <property name="buddy">
-         <cstring>Email_LineEdit</cstring>
-        </property>
-       </widget>
-      </item>
-      <item row="3" column="1">
-       <widget class="QLineEdit" name="Email_LineEdit"/>
-      </item>
-      <item row="4" column="0">
-       <widget class="QLabel" name="PhoneNumber_Label">
-        <property name="text">
-         <string>Phone Number:</string>
-        </property>
-        <property name="buddy">
-         <cstring>PhoneNumber_LineEdit</cstring>
-        </property>
-       </widget>
-      </item>
-      <item row="4" column="1">
-       <widget class="QLineEdit" name="PhoneNumber_LineEdit"/>
-      </item>
-      <item row="5" column="0">
-       <widget class="QLabel" name="Address1_Label">
-        <property name="text">
-         <string>Address Line 1:</string>
-        </property>
-        <property name="buddy">
-         <cstring>Address1_LineEdit</cstring>
-        </property>
-       </widget>
-      </item>
-      <item row="5" column="1">
-       <widget class="QLineEdit" name="Address1_LineEdit"/>
-      </item>
-      <item row="6" column="0">
-       <widget class="QLabel" name="Address2_Label">
-        <property name="text">
-         <string>Address Line 2:</string>
-        </property>
-        <property name="buddy">
-         <cstring>Address2_LineEdit</cstring>
-        </property>
-       </widget>
-      </item>
-      <item row="6" column="1">
-       <widget class="QLineEdit" name="Address2_LineEdit"/>
-      </item>
-      <item row="7" column="0">
        <widget class="QLabel" name="City_Label">
         <property name="text">
          <string>City:</string>
@@ -130,10 +65,10 @@
         </property>
        </widget>
       </item>
-      <item row="7" column="1">
+      <item row="2" column="1">
        <widget class="QLineEdit" name="City_LineEdit"/>
       </item>
-      <item row="8" column="0">
+      <item row="3" column="0">
        <widget class="QLabel" name="State_Label">
         <property name="text">
          <string>State:</string>
@@ -143,50 +78,95 @@
         </property>
        </widget>
       </item>
-      <item row="8" column="1">
+      <item row="3" column="1">
        <widget class="QLineEdit" name="State_LineEdit"/>
       </item>
-      <item row="9" column="0">
-       <widget class="QLabel" name="PostalCode_Label">
+      <item row="4" column="0">
+       <widget class="QLabel" name="Zip_Label">
         <property name="text">
-         <string>Postal Code:</string>
+         <string>Zip:</string>
         </property>
         <property name="buddy">
-         <cstring>PostalCode_LineEdit</cstring>
+         <cstring>Zip_LineEdit</cstring>
+        </property>
+       </widget>
+      </item>
+      <item row="4" column="1">
+       <widget class="QLineEdit" name="Zip_LineEdit"/>
+      </item>
+      <item row="5" column="0">
+       <widget class="QLabel" name="Phone_Label">
+        <property name="text">
+         <string>Phone:</string>
+        </property>
+        <property name="buddy">
+         <cstring>Phone_LineEdit</cstring>
+        </property>
+       </widget>
+      </item>
+      <item row="5" column="1">
+       <widget class="QLineEdit" name="Phone_LineEdit"/>
+      </item>
+      <item row="6" column="0">
+       <widget class="QLabel" name="Email_Label">
+        <property name="text">
+         <string>Email:</string>
+        </property>
+        <property name="buddy">
+         <cstring>Email_LineEdit</cstring>
+        </property>
+       </widget>
+      </item>
+      <item row="6" column="1">
+       <widget class="QLineEdit" name="Email_LineEdit"/>
+      </item>
+      <item row="7" column="0">
+       <widget class="QLabel" name="TaxIdEin_Label">
+        <property name="text">
+         <string>Tax ID / EIN:</string>
+        </property>
+        <property name="buddy">
+         <cstring>TaxIdEin_LineEdit</cstring>
+        </property>
+       </widget>
+      </item>
+      <item row="7" column="1">
+       <widget class="QLineEdit" name="TaxIdEin_LineEdit"/>
+      </item>
+      <item row="8" column="0">
+       <widget class="QLabel" name="LateFees_Label">
+        <property name="text">
+         <string>Late Fee (%):</string>
+        </property>
+        <property name="buddy">
+         <cstring>LateFees_SpinBox</cstring>
+        </property>
+       </widget>
+      </item>
+      <item row="8" column="1">
+       <widget class="QSpinBox" name="LateFees_SpinBox">
+        <property name="minimum">
+         <number>0</number>
+        </property>
+        <property name="maximum">
+         <number>100</number>
+        </property>
+       </widget>
+      </item>
+      <item row="9" column="0">
+       <widget class="QLabel" name="Accrual_Label">
+        <property name="text">
+         <string>Accounting Basis:</string>
+        </property>
+        <property name="buddy">
+         <cstring>Accrual_CheckBox</cstring>
         </property>
        </widget>
       </item>
       <item row="9" column="1">
-       <widget class="QLineEdit" name="PostalCode_LineEdit"/>
-      </item>
-      <item row="10" column="0">
-       <widget class="QLabel" name="CreatedAtCaption_Label">
+       <widget class="QCheckBox" name="Accrual_CheckBox">
         <property name="text">
-         <string>Customer Since:</string>
-        </property>
-       </widget>
-      </item>
-      <item row="10" column="1">
-       <widget class="QLabel" name="CreatedAt_Label">
-        <property name="text">
-         <string/>
-        </property>
-       </widget>
-      </item>
-      <item row="11" column="0">
-       <widget class="QLabel" name="TaxExempt_Label">
-        <property name="text">
-         <string>Tax Exempt:</string>
-        </property>
-        <property name="buddy">
-         <cstring>TaxExempt_CheckBox</cstring>
-        </property>
-       </widget>
-      </item>
-      <item row="11" column="1">
-       <widget class="QCheckBox" name="TaxExempt_CheckBox">
-        <property name="text">
-         <string>Customer is tax exempt</string>
+         <string>Accrual basis (unchecked = cash basis)</string>
         </property>
        </widget>
       </item>

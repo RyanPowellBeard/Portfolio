@@ -26,6 +26,18 @@ qt_add_executable(OSI-Invoicing
     invoicecard.h invoicecard.cpp invoicecard.ui
     addinvoicedialog.h addinvoicedialog.cpp addinvoicedialog.ui
     contacts_invoices.h contacts_invoices.cpp contacts_invoices.ui
+    companyprofile.h companyprofile.cpp companyprofile.ui
+    companydao.h companydao.cpp
+    taxdao.h taxdao.cpp
+    payment.h
+    invoiceitem.h
+    invoiceitemdao.h invoiceitemdao.cpp
+    paymentdao.h paymentdao.cpp
+    recordpaymentdialog.h recordpaymentdialog.cpp recordpaymentdialog.ui
+    salestaxreport.h salestaxreport.cpp salestaxreport.ui
+    salestaxreportdao.h salestaxreportdao.cpp
+    taxsettings.h taxsettings.cpp taxsettings.ui
+    invoicestatusguard.h
 
 )
 

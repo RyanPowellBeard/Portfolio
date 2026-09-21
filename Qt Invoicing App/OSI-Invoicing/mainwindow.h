@@ -132,6 +132,12 @@ private slots:
 
 private:
 
+    // Shared by both the Receive Payment button and the Received Payments
+    // menu action: asks for an invoice number, resolves it, and opens
+    // RecordPaymentDialog. No invoice picker UI yet -- typed exact match only.
+    // This is in the process of being resolved
+    void openReceivePaymentFlow();
+
     Ui::MainWindow *ui;
     DatabaseManager& m_dbManager; // Reference to main.cpp's instance
 };

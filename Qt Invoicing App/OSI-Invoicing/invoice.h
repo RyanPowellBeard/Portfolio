@@ -13,6 +13,7 @@ struct Invoice {
     QString dueDate;         // "yyyy-MM-dd"
     QString status;          // e.g. "Draft", "Sent", "Paid", "Overdue", "Void"
     int taxRate{0};          // whole percentage, e.g. 7 == 7%
+    bool taxable{true};      // Is taxable
     int discountAmount{0};   // stored in cents
     QString poNumber;
     QString notes;

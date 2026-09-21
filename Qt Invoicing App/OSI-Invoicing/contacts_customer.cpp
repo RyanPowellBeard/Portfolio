@@ -8,7 +8,9 @@
 #include <QMessageBox>
 #include <QPushButton>
 
-
+/*
+ * This is the page that shows when Customers button is clicked in main window
+ */
 Contacts_Customer::Contacts_Customer(DatabaseManager& dbManager, QWidget *parent)
     : QWidget(parent)
     , ui(new Ui::Contacts_Customer)

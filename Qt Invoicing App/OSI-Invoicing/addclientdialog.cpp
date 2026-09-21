@@ -41,7 +41,7 @@ void AddClientDialog::on_Save_PushButton_clicked()
 
     // Build Client Structure from UI inputs
     Client newClient;
-    //newClient.addressType = ui->AddressType_SelectionBox;
+   // newClient.addressType = ui->AddressType_SelectionBox;
     newClient.firstName = ui->FirstName_LineEdit->text().trimmed();
     newClient.lastName = ui->LastName_LineEdit->text().trimmed();
     newClient.businessName = ui->BusinessName_LineEdit->text().trimmed();

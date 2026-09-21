@@ -3,9 +3,16 @@
 #include "DatabaseManager.h"
 #include "contacts_customer.h"
 #include "contacts_invoices.h"
+#include "companyprofile.h"
+#include "salestaxreport.h"
+#include "recordpaymentdialog.h"
+#include "invoicedao.h"
+#include "taxsettings.h"
 
 #include <QMdiSubWindow>
 #include <QMessageBox>
+#include <QInputDialog>
+#include <QLineEdit>
 #include <QSqlQuery>
 #include <QDebug>
 
@@ -42,6 +49,26 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
+void MainWindow::openReceivePaymentFlow() // Called in ReceivePayment_Button and Received_Payments_triggered()
+{
+    bool ok = false;
+    QString invoiceNumber = QInputDialog::getText(this, "Receive Payment", "Invoice Number:",
+                                                  QLineEdit::Normal, QString(), &ok);
+    if (!ok || invoiceNumber.trimmed().isEmpty()) {
+        return;
+    }
+
+    InvoiceDao invoiceDao(m_dbManager);
+    int invoiceId = invoiceDao.getInvoiceIdByNumber(invoiceNumber.trimmed());
+    if (invoiceId == 0) {
+        QMessageBox::warning(this, "Not Found", QString("No invoice found with number \"%1\".").arg(invoiceNumber.trimmed()));
+        return;
+    }
+
+    RecordPaymentDialog dialog(m_dbManager, invoiceId, this);
+    dialog.exec();
+}
+
 
 //------------------------------------------------Top Frame Buttons------------------------------------------------
 
@@ -65,7 +92,7 @@ void MainWindow::on_CreateInvoice_Button_clicked()
 // Recieve Payment Button
 void MainWindow::on_ReceivePayment_Button_clicked()
 {
-
+    openReceivePaymentFlow();
 }
 
 // Statements Button
@@ -355,7 +382,7 @@ void MainWindow::on_actionVendor_Suppliers_triggered()
 // Received Payments
 void MainWindow::on_actionReceived_Payments_triggered()
 {
-
+    openReceivePaymentFlow();
 }
 
 // Payment Gateway
@@ -427,7 +454,13 @@ void MainWindow::on_actionJobs_Time_Mileage_triggered()
 // Tax Summary
 void MainWindow::on_actionTax_Summary_triggered()
 {
+    // Embedded in mdiArea, same pattern as CompanyProfile.
+    SalesTaxReport *reportWindow = new SalesTaxReport(m_dbManager, this);
 
+    // If this has stripping issues... Follow Company Profile...
+    QMdiSubWindow *subReportWindow = ui->mdiArea->addSubWindow(reportWindow);
+    subReportWindow->setAttribute(Qt::WA_DeleteOnClose);
+    subReportWindow->showMaximized();
 }
 
 //------------Settings------------
@@ -436,7 +469,17 @@ void MainWindow::on_actionTax_Summary_triggered()
 // Company Profile
 void MainWindow::on_actionCompany_Profile_triggered()
 {
+    // Embedded in mdiArea, same pattern as Contacts_Customer/Contacts_Invoices.
+    // CompanyProfile itself is a plain QWidget with no self-set window flags;
+    // this subwindow is what owns it and deletes it on close. (Do NOT switch
+    // this back to profileWindow->show()/raise()/activateWindow() -- that
+    // pattern requires CompanyProfile to set Qt::Window + WA_DeleteOnClose on
+    // itself, which it deliberately does not do anymore.)
+    CompanyProfile *profileWindow = new CompanyProfile(m_dbManager, this);
 
+    QMdiSubWindow *subProfileWindow = ui->mdiArea->addSubWindow(profileWindow);
+    subProfileWindow->setAttribute(Qt::WA_DeleteOnClose);
+    subProfileWindow->showMaximized();
 }
 
 // User Settings
@@ -454,7 +497,12 @@ void MainWindow::on_actionInvoice_Customization_triggered()
 // Tax Settings
 void MainWindow::on_actionTax_Settings_triggered()
 {
+    // Embedded in mdiArea, same pattern as CompanyProfile/SalesTaxReport.
+    TaxSettings *taxSettingsWindow = new TaxSettings(m_dbManager, this);
 
+    QMdiSubWindow *subTaxSettingsWindow = ui->mdiArea->addSubWindow(taxSettingsWindow);
+    subTaxSettingsWindow->setAttribute(Qt::WA_DeleteOnClose);
+    subTaxSettingsWindow->showMaximized();
 }
 
 //------------About Tab------------
@@ -466,4 +514,3 @@ void MainWindow::on_actionAbout_Qt_triggered()
     // crediting Qt and explaining the LGPL license terms.
     QMessageBox::aboutQt(this, "About Qt");
 }
-

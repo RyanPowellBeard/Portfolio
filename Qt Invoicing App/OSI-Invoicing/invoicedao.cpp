@@ -17,8 +17,8 @@ int InvoiceDao::insertInvoice(const Invoice& invoice) {
 
     QSqlQuery query(db);
     query.prepare(
-        "INSERT INTO invoices (client_id, invoice_number, issue_date, due_date, status, tax_rate, discount_amount, po_number, notes) "
-        "VALUES (:client_id, :invoice_number, :issue_date, :due_date, :status, :tax_rate, :discount_amount, :po_number, :notes);"
+        "INSERT INTO invoices (client_id, invoice_number, issue_date, due_date, status, tax_rate, taxable, discount_amount, po_number, notes) "
+        "VALUES (:client_id, :invoice_number, :issue_date, :due_date, :status, :tax_rate, :taxable, :discount_amount, :po_number, :notes);"
         );
     query.bindValue(":client_id", invoice.clientId);
     query.bindValue(":invoice_number", invoice.invoiceNumber);
@@ -26,6 +26,7 @@ int InvoiceDao::insertInvoice(const Invoice& invoice) {
     query.bindValue(":due_date", invoice.dueDate);
     query.bindValue(":status", invoice.status);
     query.bindValue(":tax_rate", invoice.taxRate);
+    query.bindValue(":taxable", invoice.taxable);
     query.bindValue(":discount_amount", invoice.discountAmount);
     query.bindValue(":po_number", invoice.poNumber);
     query.bindValue(":notes", invoice.notes);
@@ -55,7 +56,7 @@ Invoice InvoiceDao::getInvoiceById(int invoiceId) const {
 
     QSqlQuery query(db);
     query.prepare(
-        "SELECT invoice_id, client_id, invoice_number, issue_date, due_date, status, tax_rate, discount_amount, po_number, notes "
+        "SELECT invoice_id, client_id, invoice_number, issue_date, due_date, status, tax_rate, taxable, discount_amount, po_number, notes "
         "FROM invoices "
         "WHERE invoice_id = :id;"
         );
@@ -74,6 +75,7 @@ Invoice InvoiceDao::getInvoiceById(int invoiceId) const {
         invoice.dueDate = query.value("due_date").toString();
         invoice.status = query.value("status").toString();
         invoice.taxRate = query.value("tax_rate").toInt();
+        invoice.taxable = query.value("taxable").toBool();
         invoice.discountAmount = query.value("discount_amount").toInt();
         invoice.poNumber = query.value("po_number").toString();
         invoice.notes = query.value("notes").toString();
@@ -94,13 +96,14 @@ bool InvoiceDao::updateInvoice(const Invoice& invoice) {
     QSqlQuery query(db);
     query.prepare(
         "UPDATE invoices SET issue_date = :issue_date, due_date = :due_date, status = :status, "
-        "tax_rate = :tax_rate, discount_amount = :discount_amount, po_number = :po_number, notes = :notes "
+        "tax_rate = :tax_rate, taxable = :taxable, discount_amount = :discount_amount, po_number = :po_number, notes = :notes "
         "WHERE invoice_id = :invoice_id;"
         );
     query.bindValue(":issue_date", invoice.issueDate);
     query.bindValue(":due_date", invoice.dueDate);
     query.bindValue(":status", invoice.status);
     query.bindValue(":tax_rate", invoice.taxRate);
+    query.bindValue(":taxable", invoice.taxable);
     query.bindValue(":discount_amount", invoice.discountAmount);
     query.bindValue(":po_number", invoice.poNumber);
     query.bindValue(":notes", invoice.notes);
@@ -125,7 +128,7 @@ QVector<Invoice> InvoiceDao::getInvoicesForClient(int clientId) const {
 
     QSqlQuery query(db);
     query.prepare(
-        "SELECT invoice_id, client_id, invoice_number, issue_date, due_date, status, tax_rate, discount_amount, po_number, notes "
+        "SELECT invoice_id, client_id, invoice_number, issue_date, due_date, status, tax_rate, taxable, discount_amount, po_number, notes "
         "FROM invoices "
         "WHERE client_id = :client_id "
         "ORDER BY issue_date DESC;"
@@ -146,6 +149,7 @@ QVector<Invoice> InvoiceDao::getInvoicesForClient(int clientId) const {
         invoice.dueDate = query.value("due_date").toString();
         invoice.status = query.value("status").toString();
         invoice.taxRate = query.value("tax_rate").toInt();
+        invoice.taxable = query.value("taxable").toBool();
         invoice.discountAmount = query.value("discount_amount").toInt();
         invoice.poNumber = query.value("po_number").toString();
         invoice.notes = query.value("notes").toString();
@@ -210,4 +214,23 @@ QVector<InvoiceListItem> InvoiceDao::searchInvoices(const QString& searchTerm) c
     }
 
     return results;
+}
+
+int InvoiceDao::getInvoiceIdByNumber(const QString &invoiceNumber) const {
+    QSqlDatabase db = m_dbManager.database();
+    if (!db.isOpen()) {
+        qCritical() << "InvoiceDao::getInvoiceIdByNumber - Database connection is not open!";
+        return 0;
+    }
+
+    QSqlQuery query(db);
+    query.prepare("SELECT invoice_id FROM invoices WHERE invoice_number = :invoice_number;");
+    query.bindValue(":invoice_number", invoiceNumber.trimmed());
+
+    if (!query.exec()) {
+        qCritical() << "Error looking up invoice by number:" << query.lastError().text();
+        return 0;
+    }
+
+    return query.next() ? query.value("invoice_id").toInt() : 0;
 }

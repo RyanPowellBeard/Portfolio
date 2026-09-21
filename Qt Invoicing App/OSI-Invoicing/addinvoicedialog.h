@@ -4,6 +4,8 @@
 #include <QDialog>
 #include <QMap>
 #include <QString>
+#include <QVector>
+#include "taxdao.h"
 
 // Forward declaration
 class DatabaseManager;
@@ -53,6 +55,13 @@ private:
     // to a client_id on save.
     void populateClientCompleter(int preselectedClientId);
 
+    // Builds Status_ComboBox's items in code rather than in the .ui, since
+    // Designer's static item list can't express the separator between
+    // "Sent" and "Paid" -- that gap exists on purpose, to put a click of
+    // real consequence (marking something Paid) a deliberate step away from
+    // the two statuses used on every ordinary invoice.
+    void populateStatusComboBox();
+
     // Resolves the currently typed client text to a client_id, or 0 if it
     // doesn't match anything in the completer's list.
     int resolveSelectedClientId() const;
@@ -85,11 +94,21 @@ private:
     // taxTotal_lineEdit = sum(TAX_i * TOTAL_i), GrandTotal_lineEdit =
     // sum(TOTAL_i) + taxTotal_lineEdit. Called after any row's QUANTITY,
     // AMOUNT, or TAX changes, and whenever a row is added or removed.
+    // If the invoice is marked Tax Exempt, tax is forced to 0 regardless
+    // of what any row's (disabled) TAX dropdown has selected.
     void recalculateInvoiceTotals();
+
+    // True when TaxStatus_ComboBox is set to "Taxable" (index 0), false
+    // when "Tax Exempt" (index 1).
+    bool isInvoiceTaxable() const;
 
     Ui::AddInvoiceDialog *ui;
     DatabaseManager& m_dbManager; // Store reference to manager
     QMap<QString, int> m_clientDisplayNameToId; // exact display text -> client_id
+
+    // Loaded once per dialog instance from tax_table; used to populate each
+    // new row's TAX combo box without re-querying the DB per row.
+    QVector<TaxRate> m_taxRates;
 };
 
 #endif // ADDINVOICEDIALOG_H

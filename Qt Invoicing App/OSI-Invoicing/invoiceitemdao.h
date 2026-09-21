@@ -1,0 +1,32 @@
+#ifndef INVOICEITEMDAO_H
+#define INVOICEITEMDAO_H
+
+#include <QVector>
+#include "invoiceitem.h"
+
+// Forward declaration
+class DatabaseManager;
+
+// DAO for invoice_items. Callers (e.g. AddInvoiceDialog) currently save an
+// invoice's items as "delete everything for this invoice, then re-insert
+// current rows" via replaceItemsForInvoice() rather than diffing row-by-row
+// -- simpler, and fine for the size of invoice this app deals with.
+class InvoiceItemDao
+{
+public:
+    explicit InvoiceItemDao(DatabaseManager& dbManager);
+
+    // Fetch all line items for an invoice, in insertion order.
+    QVector<InvoiceItem> getItemsForInvoice(int invoiceId) const;
+
+    // Deletes every existing item for invoiceId, then inserts items (each
+    // item's .invoiceId is overwritten with invoiceId regardless of what's
+    // set on it). Runs as a single transaction. Returns false and leaves
+    // existing rows untouched if anything fails.
+    bool replaceItemsForInvoice(int invoiceId, const QVector<InvoiceItem>& items);
+
+private:
+    DatabaseManager& m_dbManager;
+};
+
+#endif // INVOICEITEMDAO_H

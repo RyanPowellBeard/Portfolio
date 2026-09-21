@@ -1,4 +1,3 @@
-
 #include "clientdao.h"
 #include "DatabaseManager.h"
 #include <QSqlQuery>
@@ -11,7 +10,7 @@ ClientDao::ClientDao(DatabaseManager &dbManager)
     : m_dbManager(dbManager) {}
 
 QVector<Client> ClientDao::searchClients(const QString& searchTerm) const {
-    qWarning() << ">>>> RUNNING FRESH BUILD - marker 001 <<<<";
+    qWarning() << ">>>> RUNNING FRESH BUILD - marker 001 - ClientDao <<<<"; // Testing purpose
     QVector<Client> results;
 
     // Fetch the thread-safe connection from DatabaseManager
@@ -74,14 +73,15 @@ bool ClientDao::insertClient(const Client& client) {
     // Insert the core client record
     QSqlQuery query(db);
     query.prepare(
-        "INSERT INTO clients (first_name, last_name, business_name, email, phone_number) "
-        "VALUES (:first_name, :last_name, :business_name, :email, :phone_number);"
+        "INSERT INTO clients (first_name, last_name, business_name, email, phone_number, tax_exempt) "
+        "VALUES (:first_name, :last_name, :business_name, :email, :phone_number, :tax_exempt);"
         );
     query.bindValue(":first_name", client.firstName);
     query.bindValue(":last_name", client.lastName);
     query.bindValue(":business_name", client.businessName);
     query.bindValue(":email", client.email);
     query.bindValue(":phone_number", client.phoneNumber);
+    query.bindValue(":tax_exempt", client.taxExempt);
 
     if (!query.exec()) {
         qCritical() << "Error inserting client:" << query.lastError().text();
@@ -143,7 +143,7 @@ Client ClientDao::getClientById(int clientId) const {
 
     QSqlQuery query(db);
     query.prepare(
-        "SELECT c.client_id, c.first_name, c.last_name, c.business_name, c.email, c.phone_number, c.created_at, "
+        "SELECT c.client_id, c.first_name, c.last_name, c.business_name, c.email, c.phone_number, c.created_at, c.tax_exempt, "
         "       a.street_address, a.address_line2, a.city, a.state, a.postal_code, a.country "
         "FROM clients c "
         "LEFT JOIN addresses a ON a.client_id = c.client_id AND a.address_type = 'Billing Address' "
@@ -164,6 +164,7 @@ Client ClientDao::getClientById(int clientId) const {
         client.email = query.value("email").toString();
         client.phoneNumber = query.value("phone_number").toString();
         client.createdAt = query.value("created_at").toString();
+        client.taxExempt = query.value("tax_exempt").toBool();
         client.address1 = query.value("street_address").toString();
         client.address2 = query.value("address_line2").toString();
         client.city = query.value("city").toString();
@@ -187,7 +188,7 @@ bool ClientDao::updateClient(const Client& client) {
     QSqlQuery query(db);
     query.prepare(
         "UPDATE clients SET first_name = :first_name, last_name = :last_name, "
-        "business_name = :business_name, email = :email, phone_number = :phone_number "
+        "business_name = :business_name, email = :email, phone_number = :phone_number, tax_exempt = :tax_exempt "
         "WHERE client_id = :client_id;"
         );
     query.bindValue(":first_name", client.firstName);
@@ -195,6 +196,7 @@ bool ClientDao::updateClient(const Client& client) {
     query.bindValue(":business_name", client.businessName);
     query.bindValue(":email", client.email);
     query.bindValue(":phone_number", client.phoneNumber);
+    query.bindValue(":tax_exempt", client.taxExempt);
     query.bindValue(":client_id", client.id);
 
     if (!query.exec()) {

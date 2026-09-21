@@ -41,6 +41,10 @@ public:
     // Search invoices by invoice number or client name/business, most recently issued first
     QVector<InvoiceListItem> searchInvoices(const QString& searchTerm) const;
 
+    // Exact invoice_number lookup. Returns 0 if not found. Used by the
+    // Receive Payment flow to resolve a typed invoice number to an id.
+    int getInvoiceIdByNumber(const QString& invoiceNumber) const;
+
 private:
     DatabaseManager& m_dbManager;
 };

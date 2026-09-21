@@ -8,7 +8,9 @@
 #include <QMessageBox>
 #include <QPushButton>
 
-
+/*
+ * This is the page that shows when invoice button is clicked in main window
+ */
 Contacts_Invoices::Contacts_Invoices(DatabaseManager& dbManager, QWidget *parent)
     : QWidget(parent)
     , ui(new Ui::Contacts_Invoices)
