@@ -11,10 +11,9 @@ CompanyProfile::CompanyProfile(DatabaseManager &dbManager, QWidget *parent)
     , m_dbManager(dbManager)
 {
     ui->setupUi(this);
-
-    // Open as its own top-level window rather than embedded in the parent's layout
-    setWindowFlags(Qt::Window);
-    setAttribute(Qt::WA_DeleteOnClose);
+    // No setWindowFlags(Qt::Window) / WA_DeleteOnClose here -- MainWindow
+    // owns this via QMdiSubWindow (see on_actionCompany_Profile_triggered),
+    // same as Contacts_Customer / Contacts_Invoices.
 
     loadCompany();
 
@@ -115,5 +114,13 @@ void CompanyProfile::on_Save_PushButton_clicked()
 
 void CompanyProfile::on_Close_PushButton_clicked()
 {
-    close();
+    // Embedded in a QMdiSubWindow (see MainWindow::on_actionCompany_Profile_triggered).
+    // close() on just this widget hides/destroys the widget itself but
+    // leaves the QMdiSubWindow behind as an empty frame in the MDI area --
+    // close the wrapper instead when there is one.
+    if (QWidget *container = parentWidget()) {
+        container->close();
+    } else {
+        close();
+    }
 }

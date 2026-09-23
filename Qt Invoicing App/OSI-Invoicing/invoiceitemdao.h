@@ -25,6 +25,13 @@ public:
     // existing rows untouched if anything fails.
     bool replaceItemsForInvoice(int invoiceId, const QVector<InvoiceItem>& items);
 
+    // Tax-inclusive total for an invoice, in cents: sum of line_total plus
+    // each line's tax (looked up by tax_id against tax_table's current
+    // rate, regardless of whether that rate is still active -- a rate
+    // deactivated later shouldn't retroactively change an existing
+    // invoice's total). Returns 0 for an invoice with no items.
+    int getInvoiceTotalCents(int invoiceId) const;
+
 private:
     DatabaseManager& m_dbManager;
 };

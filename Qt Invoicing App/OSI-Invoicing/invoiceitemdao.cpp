@@ -73,7 +73,6 @@ bool InvoiceItemDao::replaceItemsForInvoice(int invoiceId, const QVector<Invoice
 
     for (const InvoiceItem &item : items) {
         insertQuery.bindValue(":invoice_id", invoiceId);
-
         // service_id and tax_id are nullable FKs; 0 means "not set" in our
         // struct, so bind SQL NULL instead of a literal 0 (which would
         // otherwise dangle as a foreign key to a row that doesn't exist).
@@ -97,4 +96,32 @@ bool InvoiceItemDao::replaceItemsForInvoice(int invoiceId, const QVector<Invoice
     }
 
     return true;
+}
+
+int InvoiceItemDao::getInvoiceTotalCents(int invoiceId) const {
+    QSqlDatabase db = m_dbManager.database();
+    if (!db.isOpen()) {
+        qCritical() << "InvoiceItemDao::getInvoiceTotalCents - Database connection is not open!";
+        return 0;
+    }
+
+    QSqlQuery query(db);
+    query.prepare(
+        "SELECT COALESCE(SUM("
+        "  ii.line_total + CASE WHEN tt.tax_rate IS NOT NULL "
+        "    THEN CAST(ROUND(ii.line_total * tt.tax_rate / 100.0) AS INTEGER) "
+        "    ELSE 0 END"
+        "), 0) AS total_cents "
+        "FROM invoice_items ii "
+        "LEFT JOIN tax_table tt ON tt.tax_id = ii.tax_id "
+        "WHERE ii.invoice_id = :invoice_id;"
+        );
+    query.bindValue(":invoice_id", invoiceId);
+
+    if (!query.exec() || !query.next()) {
+        qCritical() << "Error computing invoice total:" << query.lastError().text();
+        return 0;
+    }
+
+    return query.value("total_cents").toInt();
 }

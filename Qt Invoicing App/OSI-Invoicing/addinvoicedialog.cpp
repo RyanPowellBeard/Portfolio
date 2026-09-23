@@ -45,7 +45,7 @@ AddInvoiceDialog::AddInvoiceDialog(DatabaseManager& dbManager, int preselectedCl
     // them. Defaults to Taxable; refreshClientSummary() flips this to
     // Tax Exempt automatically when the selected client is tax-exempt, but
     // it stays freely changeable by hand after that.
-    connect(ui->InvoiceStatus_ComboBox, &QComboBox::currentIndexChanged, this, [this](int) {
+    connect(ui->TaxStatus_ComboBox, &QComboBox::currentIndexChanged, this, [this](int) {
         const bool taxable = isInvoiceTaxable();
         for (int row = 0; row < ui->Items_TableWidget->rowCount(); ++row) {
             if (auto *taxCombo = qobject_cast<QComboBox *>(ui->Items_TableWidget->cellWidget(row, 5))) {
@@ -54,7 +54,7 @@ AddInvoiceDialog::AddInvoiceDialog(DatabaseManager& dbManager, int preselectedCl
         }
         recalculateInvoiceTotals();
     });
-    ui->InvoiceStatus_ComboBox->setCurrentIndex(0); // Taxable by default
+    ui->TaxStatus_ComboBox->setCurrentIndex(0); // Taxable by default
 
     // Live-refresh the client summary panel whenever the typed client
     // resolves to a real client, whether via picking a completer entry or
@@ -189,7 +189,7 @@ void AddInvoiceDialog::refreshClientSummary(int clientId)
     // Reflect this client's tax-exempt flag on the invoice-wide toggle.
     // Still just a starting point: the user can flip it back afterward
     // (e.g. a normally-exempt client buying something taxable this once).
-    ui->InvoiceStatus_ComboBox->setCurrentIndex(client.taxExempt ? 1 : 0);
+    ui->TaxStatus_ComboBox->setCurrentIndex(client.taxExempt ? 1 : 0);
 
     QStringList lines;
     QString name = QString("%1 %2").arg(client.firstName, client.lastName).trimmed();
@@ -346,7 +346,7 @@ void AddInvoiceDialog::recalculateInvoiceTotals()
 
 bool AddInvoiceDialog::isInvoiceTaxable() const
 {
-    return ui->InvoiceStatus_ComboBox->currentIndex() == 0; // 0 = "Taxable", 1 = "Tax Exempt"
+    return ui->TaxStatus_ComboBox->currentIndex() == 0; // 0 = "Taxable", 1 = "Tax Exempt"
 }
 
 void AddInvoiceDialog::onItemsTableCellChanged(int row, int column)

@@ -2,6 +2,7 @@
 #include "ui_recordpaymentdialog.h"
 #include "DatabaseManager.h"
 #include "invoicedao.h"
+#include "invoiceitemdao.h"
 #include "paymentdao.h"
 
 #include <QMessageBox>
@@ -21,6 +22,21 @@ RecordPaymentDialog::RecordPaymentDialog(DatabaseManager &dbManager, int invoice
     Invoice invoice = invoiceDao.getInvoiceById(invoiceId);
     if (invoice.id != 0) {
         ui->InvoiceSummary_Label->setText(QString("Invoice: %1").arg(invoice.invoiceNumber));
+    }
+
+    InvoiceItemDao itemDao(m_dbManager);
+    PaymentDao paymentDao(m_dbManager);
+    const int totalCents = itemDao.getInvoiceTotalCents(invoiceId);
+    const int paidCents = paymentDao.getTotalPaidForInvoice(invoiceId);
+    const int balanceCents = totalCents - paidCents;
+
+    ui->InvoiceTotal_Label->setText(QString("Invoice Total: $%1").arg(totalCents / 100.0, 0, 'f', 2));
+    ui->BalanceDue_Label->setText(QString("Amount Due: $%1").arg(balanceCents / 100.0, 0, 'f', 2));
+
+    // Default the amount to whatever's left owing -- still just a starting
+    // point, editable for a partial payment.
+    if (balanceCents > 0) {
+        ui->Amount_DoubleSpinBox->setValue(balanceCents / 100.0);
     }
 }
 

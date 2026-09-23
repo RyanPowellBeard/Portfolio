@@ -269,6 +269,42 @@
      </property>
     </item>
    </widget>
+   <widget class="QLabel" name="TaxStatus_Label">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>154</y>
+      <width>90</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Tax Status:</string>
+    </property>
+    <property name="buddy">
+     <cstring>TaxStatus_ComboBox</cstring>
+    </property>
+   </widget>
+   <widget class="QComboBox" name="TaxStatus_ComboBox">
+    <property name="geometry">
+     <rect>
+      <x>100</x>
+      <y>150</y>
+      <width>120</width>
+      <height>24</height>
+     </rect>
+    </property>
+    <item>
+     <property name="text">
+      <string>Taxable</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>Tax Exempt</string>
+     </property>
+    </item>
+   </widget>
   </widget>
   <widget class="QFrame" name="Items_Frame">
    <property name="geometry">

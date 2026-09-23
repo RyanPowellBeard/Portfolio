@@ -53,6 +53,25 @@
        </widget>
       </item>
       <item>
+       <widget class="QComboBox" name="StatusFilter_ComboBox">
+        <item>
+         <property name="text">
+          <string>All</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>Paid</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>Due</string>
+         </property>
+        </item>
+       </widget>
+      </item>
+      <item>
        <spacer name="horizontalSpacer">
         <property name="orientation">
          <enum>Qt::Orientation::Horizontal</enum>
@@ -107,6 +126,16 @@
      <column>
       <property name="text">
        <string>Due Date</string>
+      </property>
+     </column>
+     <column>
+      <property name="text">
+       <string>Amount</string>
+      </property>
+     </column>
+     <column>
+      <property name="text">
+       <string>Payment</string>
       </property>
      </column>
      <column>

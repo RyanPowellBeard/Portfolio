@@ -2,15 +2,16 @@
 #include "ui_contacts_invoices.h"
 #include "DatabaseManager.h"
 #include "invoicedao.h"
+#include "invoiceitemdao.h"
+#include "paymentdao.h"
 #include "addinvoicedialog.h"
 #include "invoicecard.h"
+#include "recordpaymentdialog.h"
 
 #include <QMessageBox>
 #include <QPushButton>
 
-/*
- * This is the page that shows when invoice button is clicked in main window
- */
+
 Contacts_Invoices::Contacts_Invoices(DatabaseManager& dbManager, QWidget *parent)
     : QWidget(parent)
     , ui(new Ui::Contacts_Invoices)
@@ -19,8 +20,8 @@ Contacts_Invoices::Contacts_Invoices(DatabaseManager& dbManager, QWidget *parent
     ui->setupUi(this);
 
     // Set up table headers (also defined in the .ui file; kept here in case columns change at runtime)
-    ui->invoicesTableWidget->setColumnCount(6);
-    ui->invoicesTableWidget->setHorizontalHeaderLabels({"Invoice #", "Client", "Issue Date", "Due Date", "Status", ""});
+    ui->invoicesTableWidget->setColumnCount(9);
+    ui->invoicesTableWidget->setHorizontalHeaderLabels({"Invoice #", "Client", "Issue Date", "Due Date", "Amount", "Payment", "Status", "", ""});
 
     // Line Edit for Invoice Search Field
     // Place Holder Text
@@ -33,7 +34,7 @@ Contacts_Invoices::Contacts_Invoices(DatabaseManager& dbManager, QWidget *parent
     ui->InvoiceSearch_Field->addAction(searchAction, QLineEdit::LeadingPosition);
 
     // Populate the table with all invoices on first open
-    on_InvoiceSearch_Field_textChanged(QString());
+    refreshInvoicesTable();
 }
 
 Contacts_Invoices::~Contacts_Invoices()
@@ -43,19 +44,35 @@ Contacts_Invoices::~Contacts_Invoices()
 
 void Contacts_Invoices::on_InvoiceSearch_Field_textChanged(const QString &arg1)
 {
-    // Create DAO instance passing m_dbManager reference
+    Q_UNUSED(arg1);
+    refreshInvoicesTable();
+}
+
+void Contacts_Invoices::on_StatusFilter_ComboBox_currentIndexChanged(int index)
+{
+    Q_UNUSED(index);
+    refreshInvoicesTable();
+}
+
+void Contacts_Invoices::refreshInvoicesTable()
+{
+    // "All" (index 0) means no status filter -- pass an empty string, which
+    // InvoiceDao::searchInvoices treats as "don't filter by status".
+    QString statusFilter = ui->StatusFilter_ComboBox->currentIndex() == 0
+                                ? QString()
+                                : ui->StatusFilter_ComboBox->currentText();
+
     InvoiceDao invoiceDao(m_dbManager);
-
-    // Fetch matched results from DAO (returns QVector<InvoiceListItem>)
-    QVector<InvoiceListItem> results = invoiceDao.searchInvoices(arg1);
-
-    // Render results in table
+    QVector<InvoiceListItem> results = invoiceDao.searchInvoices(ui->InvoiceSearch_Field->text(), statusFilter);
     populateInvoicesTable(results);
 }
 
 void Contacts_Invoices::populateInvoicesTable(const QVector<InvoiceListItem> &invoices) {
     ui->invoicesTableWidget->clearContents();
     ui->invoicesTableWidget->setRowCount(invoices.size());
+
+    InvoiceItemDao itemDao(m_dbManager); // reused across rows rather than re-constructed per row
+    PaymentDao paymentDao(m_dbManager);
 
     for (int row = 0; row < invoices.size(); ++row) {
         const InvoiceListItem &invoice = invoices[row];
@@ -67,14 +84,42 @@ void Contacts_Invoices::populateInvoicesTable(const QVector<InvoiceListItem> &in
         ui->invoicesTableWidget->setItem(row, 1, new QTableWidgetItem(invoice.clientDisplayName));
         ui->invoicesTableWidget->setItem(row, 2, new QTableWidgetItem(invoice.issueDate));
         ui->invoicesTableWidget->setItem(row, 3, new QTableWidgetItem(invoice.dueDate));
-        ui->invoicesTableWidget->setItem(row, 4, new QTableWidgetItem(invoice.status));
+
+        const int totalCents = itemDao.getInvoiceTotalCents(invoice.id);
+        auto *amountItem = new QTableWidgetItem(QString("$%1").arg(totalCents / 100.0, 0, 'f', 2));
+        amountItem->setTextAlignment(Qt::AlignRight | Qt::AlignVCenter);
+        ui->invoicesTableWidget->setItem(row, 4, amountItem);
+
+        // Computed from actual recorded payments, independent of the
+        // manually-set Status field (an invoice can be "Sent" and fully
+        // paid, or "Paid" on paper with no payments actually recorded --
+        // this column reflects the real payment data, that one doesn't).
+        const int paidCents = paymentDao.getTotalPaidForInvoice(invoice.id);
+        QString paymentText;
+        if (totalCents > 0 && paidCents >= totalCents) {
+            paymentText = "Paid";
+        } else if (paidCents > 0) {
+            paymentText = "Partial";
+        } else {
+            paymentText = "Unpaid";
+        }
+        ui->invoicesTableWidget->setItem(row, 5, new QTableWidgetItem(paymentText));
+
+        ui->invoicesTableWidget->setItem(row, 6, new QTableWidgetItem(invoice.status));
+
+        const int invoiceId = invoice.id; // captured by value, not by row index
 
         QPushButton *editButton = new QPushButton("Edit", this);
-        const int invoiceId = invoice.id; // captured by value, not by row index
         connect(editButton, &QPushButton::clicked, this, [this, invoiceId]() {
             openInvoiceCard(invoiceId);
         });
-        ui->invoicesTableWidget->setCellWidget(row, 5, editButton);
+        ui->invoicesTableWidget->setCellWidget(row, 7, editButton);
+
+        QPushButton *receivePaymentButton = new QPushButton("Receive Payment", this);
+        connect(receivePaymentButton, &QPushButton::clicked, this, [this, invoiceId]() {
+            openReceivePayment(invoiceId);
+        });
+        ui->invoicesTableWidget->setCellWidget(row, 8, receivePaymentButton);
     }
 }
 
@@ -84,12 +129,23 @@ void Contacts_Invoices::openInvoiceCard(int invoiceId)
 
     // Refresh the results table whenever the card saves a change
     connect(card, &InvoiceCard::invoiceUpdated, this, [this](int) {
-        on_InvoiceSearch_Field_textChanged(ui->InvoiceSearch_Field->text());
+        refreshInvoicesTable();
     });
 
     card->show();
     card->raise();
     card->activateWindow();
+}
+
+void Contacts_Invoices::openReceivePayment(int invoiceId)
+{
+    RecordPaymentDialog dialog(m_dbManager, invoiceId, this);
+    if (dialog.exec() == QDialog::Accepted) {
+        // Doesn't change invoice.status by itself, but refreshing keeps
+        // the row's numbers current with anything else that might have
+        // changed, and is cheap enough not to bother checking.
+        refreshInvoicesTable();
+    }
 }
 
 // Add New Invoice
@@ -102,7 +158,7 @@ void Contacts_Invoices::on_NewInvoice_Button_clicked()
     // Save/New keeps the dialog open for another invoice, so refresh on
     // every save rather than only once the dialog finally closes.
     connect(&dialog, &AddInvoiceDialog::invoiceSaved, this, [this](int) {
-        on_InvoiceSearch_Field_textChanged(ui->InvoiceSearch_Field->text());
+        refreshInvoicesTable();
     });
 
     dialog.exec();

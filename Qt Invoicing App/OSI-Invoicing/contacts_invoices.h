@@ -28,11 +28,18 @@ private slots:
 
     void on_InvoiceSearch_Field_textChanged(const QString &arg1);
 
+    void on_StatusFilter_ComboBox_currentIndexChanged(int index);
+
 private:
     // Helper to render search results in the invoices table
     void populateInvoicesTable(const QVector<InvoiceListItem> &invoices);
 
+    // Re-runs the search with the current search text + status filter combo
+    // selection ("All" -> no filter). Called on any change to either.
+    void refreshInvoicesTable();
+
     void openInvoiceCard(int invoiceId);
+    void openReceivePayment(int invoiceId);
 
     Ui::Contacts_Invoices *ui;
     DatabaseManager& m_dbManager; // Store reference to manager

@@ -160,7 +160,7 @@ QVector<Invoice> InvoiceDao::getInvoicesForClient(int clientId) const {
     return results;
 }
 
-QVector<InvoiceListItem> InvoiceDao::searchInvoices(const QString& searchTerm) const {
+QVector<InvoiceListItem> InvoiceDao::searchInvoices(const QString& searchTerm, const QString& statusFilter) const {
     QVector<InvoiceListItem> results;
 
     QSqlDatabase db = m_dbManager.database();
@@ -169,18 +169,27 @@ QVector<InvoiceListItem> InvoiceDao::searchInvoices(const QString& searchTerm) c
         return results;
     }
 
-    QSqlQuery query(db);
-    query.prepare(
+    QString sql =
         "SELECT i.invoice_id, i.invoice_number, i.issue_date, i.due_date, i.status, "
         "       c.first_name, c.last_name, c.business_name "
         "FROM invoices i "
         "LEFT JOIN clients c ON c.client_id = i.client_id "
-        "WHERE i.invoice_number LIKE :term1 "
+        "WHERE (i.invoice_number LIKE :term1 "
         "   OR c.first_name LIKE :term2 "
         "   OR c.last_name LIKE :term3 "
-        "   OR c.business_name LIKE :term4 "
-        "ORDER BY i.issue_date DESC;"
-        );
+        "   OR c.business_name LIKE :term4) ";
+
+    // Status filter values are fixed constants below, never interpolated
+    // from caller input, so this is safe to branch on without binding it.
+    if (statusFilter == "Paid") {
+        sql += "AND i.status = 'Paid' ";
+    } else if (statusFilter == "Due") {
+        sql += "AND i.status NOT IN ('Paid', 'Void') ";
+    }
+    sql += "ORDER BY i.issue_date DESC;";
+
+    QSqlQuery query(db);
+    query.prepare(sql);
 
     QString formattedPattern = "%" + searchTerm.trimmed() + "%";
     query.bindValue(":term1", formattedPattern);

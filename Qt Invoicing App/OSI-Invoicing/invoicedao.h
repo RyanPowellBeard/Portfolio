@@ -38,8 +38,12 @@ public:
     // Fetch invoices belonging to a given client, most recently issued first
     QVector<Invoice> getInvoicesForClient(int clientId) const;
 
-    // Search invoices by invoice number or client name/business, most recently issued first
-    QVector<InvoiceListItem> searchInvoices(const QString& searchTerm) const;
+    // Search invoices by invoice number or client name/business, most recently issued first.
+    // statusFilter: "" (default) = no filter, "Paid" = status == "Paid",
+    // "Due" = status NOT IN ("Paid", "Void") -- i.e. still outstanding,
+    // whatever its exact status (Draft/Sent/Overdue). Void is excluded from
+    // "Due" since a voided invoice was cancelled, not outstanding.
+    QVector<InvoiceListItem> searchInvoices(const QString& searchTerm, const QString& statusFilter = QString()) const;
 
     // Exact invoice_number lookup. Returns 0 if not found. Used by the
     // Receive Payment flow to resolve a typed invoice number to an id.
