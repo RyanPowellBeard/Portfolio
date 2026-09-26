@@ -54,6 +54,7 @@ void CustomerCard::populateFields(const Client &client)
     ui->State_LineEdit->setText(client.state);
     ui->PostalCode_LineEdit->setText(client.postalCode);
     ui->CreatedAt_Label->setText(client.createdAt);
+    ui->TaxExempt_CheckBox->setChecked(client.taxExempt);
 }
 
 void CustomerCard::setEditingEnabled(bool enabled)
@@ -68,6 +69,7 @@ void CustomerCard::setEditingEnabled(bool enabled)
     ui->City_LineEdit->setReadOnly(!enabled);
     ui->State_LineEdit->setReadOnly(!enabled);
     ui->PostalCode_LineEdit->setReadOnly(!enabled);
+    ui->TaxExempt_CheckBox->setEnabled(enabled);
 
     ui->Edit_PushButton->setVisible(!enabled);
     ui->Save_PushButton->setVisible(enabled);
@@ -98,6 +100,7 @@ void CustomerCard::on_Save_PushButton_clicked()
     updated.city = ui->City_LineEdit->text().trimmed();
     updated.state = ui->State_LineEdit->text().trimmed();
     updated.postalCode = ui->PostalCode_LineEdit->text().trimmed();
+    updated.taxExempt = ui->TaxExempt_CheckBox->isChecked();
 
     if (updated.firstName.isEmpty() || updated.lastName.isEmpty()) {
         QMessageBox::warning(this, "Validation Error", "First and Last Name are required.");

@@ -56,14 +56,34 @@ void Contacts_Invoices::on_StatusFilter_ComboBox_currentIndexChanged(int index)
 
 void Contacts_Invoices::refreshInvoicesTable()
 {
-    // "All" (index 0) means no status filter -- pass an empty string, which
-    // InvoiceDao::searchInvoices treats as "don't filter by status".
-    QString statusFilter = ui->StatusFilter_ComboBox->currentIndex() == 0
-                                ? QString()
-                                : ui->StatusFilter_ComboBox->currentText();
-
     InvoiceDao invoiceDao(m_dbManager);
-    QVector<InvoiceListItem> results = invoiceDao.searchInvoices(ui->InvoiceSearch_Field->text(), statusFilter);
+    QVector<InvoiceListItem> results = invoiceDao.searchInvoices(ui->InvoiceSearch_Field->text());
+
+    // Paid/Due filtering is based on actual recorded payments -- the same
+    // computation the Payment column uses -- rather than the manually-set
+    // Status field. An invoice can be fully paid while Status still says
+    // "Sent" (or vice versa), so filtering by Status alone showed/hid the
+    // wrong rows relative to what the Payment column displays.
+    const int filterIndex = ui->StatusFilter_ComboBox->currentIndex();
+    if (filterIndex != 0) { // 0 = "All" -- no filtering needed
+        InvoiceItemDao itemDao(m_dbManager);
+        PaymentDao paymentDao(m_dbManager);
+
+        QVector<InvoiceListItem> filtered;
+        for (const InvoiceListItem &invoice : results) {
+            const int totalCents = itemDao.getInvoiceTotalCents(invoice.id);
+            const int paidCents = paymentDao.getTotalPaidForInvoice(invoice.id);
+            const bool isPaid = totalCents > 0 && paidCents >= totalCents;
+
+            if (filterIndex == 1 && isPaid) {        // "Paid"
+                filtered.append(invoice);
+            } else if (filterIndex == 2 && !isPaid) { // "Due" -- Partial or Unpaid
+                filtered.append(invoice);
+            }
+        }
+        results = filtered;
+    }
+
     populateInvoicesTable(results);
 }
 

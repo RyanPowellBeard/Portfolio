@@ -12,6 +12,17 @@ AddClientDialog::AddClientDialog(DatabaseManager& dbManager, QWidget *parent)
     , m_dbManager(dbManager) // Bind reference in initializer list
 {
     ui->setupUi(this);
+
+    ui->FirstName_LineEdit->setPlaceholderText("First Name");
+    ui->LastName_LineEdit->setPlaceholderText("Last Name");
+    ui->BusinessName_LineEdit->setPlaceholderText("business Name");
+    ui->Email_LineEdit->setPlaceholderText("Email");
+    ui->PhoneNumber_LineEdit->setPlaceholderText("Phone Number");
+    ui->Address1_LineEdit->setPlaceholderText("Street Address");
+    ui->Address2_LineEdit->setPlaceholderText("Address Line 2");
+    ui->City_LineEdit->setPlaceholderText("City");
+    ui->State_LineEdit->setPlaceholderText("State");
+    ui->PostalCode_LineEdit->setPlaceholderText("Postal Code");
 }
 
 AddClientDialog::~AddClientDialog()
@@ -27,18 +38,6 @@ void AddClientDialog::on_Cancel_PushButton_clicked()
 
 void AddClientDialog::on_Save_PushButton_clicked()
 {
-    ui->FirstName_LineEdit->setPlaceholderText("First Name");
-    ui->LastName_LineEdit->setPlaceholderText("Last Name");
-    ui->BusinessName_LineEdit->setPlaceholderText("business Name");
-    ui->Email_LineEdit->setPlaceholderText("Email");
-    ui->PhoneNumber_LineEdit->setPlaceholderText("Phone Number");
-    ui->Address1_LineEdit->setPlaceholderText("Street Address");
-    ui->Address2_LineEdit->setPlaceholderText("Address Line 2");
-    ui->City_LineEdit->setPlaceholderText("City");
-    ui->State_LineEdit->setPlaceholderText("State");
-    ui->PostalCode_LineEdit->setPlaceholderText("Postal Code");
-
-
     // Build Client Structure from UI inputs
     Client newClient;
    // newClient.addressType = ui->AddressType_SelectionBox;
@@ -52,6 +51,7 @@ void AddClientDialog::on_Save_PushButton_clicked()
     newClient.city = ui->City_LineEdit->text().trimmed();
     newClient.state = ui->State_LineEdit->text().trimmed();
     newClient.postalCode = ui->PostalCode_LineEdit->text().trimmed();
+    newClient.taxExempt = ui->TaxExempt_CheckBox->isChecked();
     //newClient.country = ui->County_SelectionBox;
 
     // Validation that Line Edit Box is not empty for First and Last Name
