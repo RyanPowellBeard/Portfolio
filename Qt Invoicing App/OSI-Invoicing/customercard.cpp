@@ -1,7 +1,8 @@
 #include "customercard.h"
 #include "ui_customercard.h"
+
 #include "DatabaseManager.h"
-#include "clientdao.h"
+#include "DAO_Client.h"
 
 #include <QMessageBox>
 
@@ -28,7 +29,7 @@ CustomerCard::~CustomerCard()
 
 void CustomerCard::loadClient()
 {
-    ClientDao clientDao(m_dbManager);
+    DAO_Client clientDao(m_dbManager);
     m_originalClient = clientDao.getClientById(m_clientId);
 
     if (m_originalClient.id == 0) {
@@ -107,7 +108,7 @@ void CustomerCard::on_Save_PushButton_clicked()
         return;
     }
 
-    ClientDao clientDao(m_dbManager);
+    DAO_Client clientDao(m_dbManager);
     if (clientDao.updateClient(updated)) {
         m_originalClient = updated;
         setWindowTitle(QString("Customer: %1 %2").arg(updated.firstName, updated.lastName));

@@ -7,6 +7,7 @@
 
 // Forward Declaration
 class DatabaseManager;
+class PageBar;
 
 namespace Ui {
 class Contacts_Customer;
@@ -21,10 +22,11 @@ public:
     explicit Contacts_Customer(DatabaseManager& dbManager, QWidget *parent = nullptr);
     ~Contacts_Customer();
 
+public slots:
+    void refresh(); // re-query the DB and repopulate the table/model
+
 private slots:
     void on_NewCustomer_Button_clicked();
-
-    void on_CsvImport_Button_clicked();
 
     void on_CustomerSearch_Field_returnPressed();
 
@@ -36,8 +38,12 @@ private:
 
     void openCustomerCard(int clientID);
 
+    // Re-queries the current page for the current search text (keeps the page)
+    void reload();
+
     Ui::Contacts_Customer *ui;
     DatabaseManager& m_dbManager; // Store reference to manager
+    PageBar* m_pageBar{nullptr};  // "Rows per page" + Prev/Next bar under the table
 
 };
 

@@ -1,8 +1,8 @@
 #include "invoicecard.h"
 #include "ui_invoicecard.h"
 #include "DatabaseManager.h"
-#include "invoicedao.h"
-#include "clientdao.h"
+#include "DAO_Invoice.h"
+#include "DAO_Client.h"
 #include "invoicestatusguard.h"
 
 #include <QMessageBox>
@@ -31,7 +31,7 @@ InvoiceCard::~InvoiceCard()
 
 void InvoiceCard::loadInvoice()
 {
-    InvoiceDao invoiceDao(m_dbManager);
+    DAO_Invoice invoiceDao(m_dbManager);
     m_originalInvoice = invoiceDao.getInvoiceById(m_invoiceId);
 
     if (m_originalInvoice.id == 0) {
@@ -50,7 +50,7 @@ void InvoiceCard::populateFields(const Invoice &invoice)
 
     // Client name/business is looked up for display only; the invoice's
     // client association is not editable from this card.
-    ClientDao clientDao(m_dbManager);
+    DAO_Client clientDao(m_dbManager);
     Client client = clientDao.getClientById(invoice.clientId);
     QString clientDisplay = QString("%1 %2").arg(client.firstName, client.lastName).trimmed();
     if (!client.businessName.isEmpty()) {
@@ -118,7 +118,7 @@ void InvoiceCard::on_Save_PushButton_clicked()
         return;
     }
 
-    InvoiceDao invoiceDao(m_dbManager);
+    DAO_Invoice invoiceDao(m_dbManager);
     if (invoiceDao.updateInvoice(updated)) {
         m_originalInvoice = updated;
         setEditingEnabled(false);
