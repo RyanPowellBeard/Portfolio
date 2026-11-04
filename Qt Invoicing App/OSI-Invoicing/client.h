@@ -22,4 +22,5 @@ struct Client {
     bool taxExempt{false};
 };
 
+
 #endif // CLIENT_H

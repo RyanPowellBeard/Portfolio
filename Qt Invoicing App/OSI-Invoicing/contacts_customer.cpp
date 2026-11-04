@@ -1,9 +1,10 @@
 #include "contacts_customer.h"
 #include "ui_contacts_customer.h"
 #include "DatabaseManager.h"
-#include "clientdao.h"
-#include "addclientdialog.h"
+#include "DAO_Client.h"
+#include "addclient.h" //"addclientdialog.h"
 #include "customercard.h"
+#include "pagebar.h"
 
 #include <QMessageBox>
 #include <QPushButton>
@@ -18,6 +19,10 @@ Contacts_Customer::Contacts_Customer(DatabaseManager& dbManager, QWidget *parent
 {
     ui->setupUi(this);
 
+    // Paging bar under the table: 25 / 50 / 100 rows per page
+    m_pageBar = new PageBar([this]() { reload(); }, this);
+    ui->verticalLayout->addWidget(m_pageBar);
+
     // Set up table headers (also defined in the .ui file; kept here in case columns change at runtime)
     ui->clientsTableWidget->setColumnCount(5);
     ui->clientsTableWidget->setHorizontalHeaderLabels({"Name", "Business", "Email", "Phone", ""});
@@ -29,11 +34,11 @@ Contacts_Customer::Contacts_Customer(DatabaseManager& dbManager, QWidget *parent
     ui->CustomerSearch_Field->setClearButtonEnabled(true);
     // Add magnifing glass icon to the left side of text box
     QAction *searchAction = new QAction(this);
-    searchAction->setIcon(QIcon(":/search.png"));// Path to search icon (Resources file)
+    searchAction->setIcon(QIcon(":/new/prefix1/search.png"));// Path to search icon (Resources file)
     ui->CustomerSearch_Field->addAction(searchAction, QLineEdit::LeadingPosition);
 
-    // Populate the table with all clients on first open
-    on_CustomerSearch_Field_textChanged(QString());
+    // Populate the first page on first open
+    reload();
 }
 
 Contacts_Customer::~Contacts_Customer()
@@ -41,16 +46,29 @@ Contacts_Customer::~Contacts_Customer()
     delete ui;
 }
 
+// Re-run the search with whatever is currently typed in the search box
+void Contacts_Customer::refresh() { reload(); }
+
 void Contacts_Customer::on_CustomerSearch_Field_textChanged(const QString &arg1)
 {
-    // Create DAO instance passing m_dbManager reference
-    ClientDao clientDao(m_dbManager);
+    Q_UNUSED(arg1);
+    // A new search always starts on the first page
+    if (m_pageBar)
+        m_pageBar->resetPage();
+    reload();
+}
 
-    // Fetch matched results from DAO (returns QVector<Client>)
-    QVector<Client> results = clientDao.searchClients(arg1);
+void Contacts_Customer::reload()
+{
+    if (!m_pageBar)
+        return;
 
-    // Render results in table
-    populateCustomersTable(results);
+    DAO_Client clientDao(m_dbManager);
+    const QString term = ui->CustomerSearch_Field->text();
+
+    // Total first: it can move the page back if the current one no longer exists
+    m_pageBar->setTotal(clientDao.countClients(term));
+    populateCustomersTable(clientDao.searchClientsPage(term, m_pageBar->limit(), m_pageBar->offset()));
 }
 
 void Contacts_Customer::populateCustomersTable(const QVector<Client> &clients) {
@@ -84,7 +102,7 @@ void Contacts_Customer::openCustomerCard(int clientId)
 
     // Refresh the results table whenever the card saves a change
     connect(card, &CustomerCard::customerUpdated, this, [this](int) {
-        on_CustomerSearch_Field_textChanged(ui->CustomerSearch_Field->text());
+        reload();
     });
 
     // Walk up to the top-level MainWindow's mdiArea instead of showing as a free Window
@@ -106,22 +124,14 @@ void Contacts_Customer::openCustomerCard(int clientId)
 void Contacts_Customer::on_NewCustomer_Button_clicked()
 {
     // Pass m_dbManager down to child addclientdialog
-    AddClientDialog dialog(m_dbManager, this);
+    AddClient dialog(m_dbManager, this);
 
     // Show modal dialog
     if (dialog.exec() == QDialog::Accepted) {
         // Refresh the client table after saving
-        on_CustomerSearch_Field_textChanged(ui->CustomerSearch_Field->text());
+        reload();
     }
 }
-
-
-// CSV Import
-void Contacts_Customer::on_CsvImport_Button_clicked()
-{
-
-}
-
 
 // Customer Search Field
 void Contacts_Customer::on_CustomerSearch_Field_returnPressed()

@@ -6,63 +6,101 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>800</width>
-    <height>648</height>
+    <width>854</width>
+    <height>600</height>
    </rect>
   </property>
-  <property name="OSI-Invoicing" stdset="0">
-   <string>MainWindow</string>
+  <property name="windowTitle">
+   <string>OSI</string>
   </property>
   <widget class="QWidget" name="centralwidget">
    <layout class="QVBoxLayout" name="verticalLayout">
     <item>
-     <widget class="QFrame" name="TopButton_Frame">
+     <widget class="QFrame" name="search_frame">
+      <property name="minimumSize">
+       <size>
+        <width>0</width>
+        <height>40</height>
+       </size>
+      </property>
       <property name="frameShape">
        <enum>QFrame::Shape::StyledPanel</enum>
       </property>
       <property name="frameShadow">
        <enum>QFrame::Shadow::Raised</enum>
       </property>
-      <layout class="QHBoxLayout" name="horizontalLayout">
+      <layout class="QHBoxLayout" name="horizontalLayout_2">
        <item>
-        <widget class="QPushButton" name="CreateInvoice_Button">
+        <widget class="QLabel" name="label">
+         <property name="minimumSize">
+          <size>
+           <width>0</width>
+           <height>20</height>
+          </size>
+         </property>
          <property name="text">
-          <string>Invoice</string>
+          <string>SEARCH</string>
          </property>
         </widget>
        </item>
        <item>
-        <widget class="QPushButton" name="ReceivePayment_Button">
-         <property name="text">
-          <string>Receive Payment</string>
+        <widget class="QLineEdit" name="search_lineEdit">
+         <property name="minimumSize">
+          <size>
+           <width>0</width>
+           <height>20</height>
+          </size>
          </property>
         </widget>
        </item>
        <item>
-        <widget class="QPushButton" name="Statements_Button">
+        <spacer name="horizontalSpacer">
+         <property name="orientation">
+          <enum>Qt::Orientation::Horizontal</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>377</width>
+           <height>12</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+       <item>
+        <widget class="QPushButton" name="Settings_Button">
+         <property name="minimumSize">
+          <size>
+           <width>30</width>
+           <height>30</height>
+          </size>
+         </property>
+         <property name="maximumSize">
+          <size>
+           <width>30</width>
+           <height>30</height>
+          </size>
+         </property>
          <property name="text">
-          <string>Statements</string>
+          <string/>
          </property>
         </widget>
        </item>
        <item>
-        <widget class="QPushButton" name="Customers_Button">
-         <property name="text">
-          <string>Customers</string>
+        <widget class="QPushButton" name="About_Button">
+         <property name="minimumSize">
+          <size>
+           <width>30</width>
+           <height>30</height>
+          </size>
          </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QPushButton" name="Reports_Button">
-         <property name="text">
-          <string>Reports</string>
+         <property name="maximumSize">
+          <size>
+           <width>30</width>
+           <height>30</height>
+          </size>
          </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QPushButton" name="Dashboard_Button">
          <property name="text">
-          <string>Dashboard</string>
+          <string/>
          </property>
         </widget>
        </item>
@@ -70,414 +108,179 @@
      </widget>
     </item>
     <item>
-     <widget class="QMdiArea" name="mdiArea"/>
+     <layout class="QHBoxLayout" name="horizontalLayout">
+      <item>
+       <widget class="QFrame" name="sidebarMenu">
+        <property name="minimumSize">
+         <size>
+          <width>120</width>
+          <height>0</height>
+         </size>
+        </property>
+        <property name="styleSheet">
+         <string notr="true"/>
+        </property>
+        <property name="frameShape">
+         <enum>QFrame::Shape::StyledPanel</enum>
+        </property>
+        <property name="frameShadow">
+         <enum>QFrame::Shadow::Raised</enum>
+        </property>
+        <widget class="QPushButton" name="addInvoiceButton">
+         <property name="geometry">
+          <rect>
+           <x>90</x>
+           <y>130</y>
+           <width>21</width>
+           <height>32</height>
+          </rect>
+         </property>
+         <property name="text">
+          <string/>
+         </property>
+        </widget>
+        <widget class="QPushButton" name="addPaymentsButton">
+         <property name="geometry">
+          <rect>
+           <x>90</x>
+           <y>160</y>
+           <width>21</width>
+           <height>32</height>
+          </rect>
+         </property>
+         <property name="text">
+          <string/>
+         </property>
+        </widget>
+        <widget class="QPushButton" name="addProductsButton">
+         <property name="geometry">
+          <rect>
+           <x>90</x>
+           <y>190</y>
+           <width>21</width>
+           <height>32</height>
+          </rect>
+         </property>
+         <property name="font">
+          <font>
+           <pointsize>15</pointsize>
+          </font>
+         </property>
+         <property name="autoFillBackground">
+          <bool>false</bool>
+         </property>
+         <property name="text">
+          <string/>
+         </property>
+        </widget>
+        <widget class="QPushButton" name="Customers_Button">
+         <property name="geometry">
+          <rect>
+           <x>10</x>
+           <y>100</y>
+           <width>81</width>
+           <height>32</height>
+          </rect>
+         </property>
+         <property name="text">
+          <string>Customers</string>
+         </property>
+        </widget>
+        <widget class="QPushButton" name="Invoices_Button">
+         <property name="geometry">
+          <rect>
+           <x>10</x>
+           <y>130</y>
+           <width>81</width>
+           <height>32</height>
+          </rect>
+         </property>
+         <property name="text">
+          <string>Invoices</string>
+         </property>
+        </widget>
+        <widget class="QPushButton" name="Payments_Button">
+         <property name="geometry">
+          <rect>
+           <x>10</x>
+           <y>160</y>
+           <width>81</width>
+           <height>32</height>
+          </rect>
+         </property>
+         <property name="text">
+          <string>Payments</string>
+         </property>
+        </widget>
+        <widget class="QPushButton" name="Products_Button">
+         <property name="geometry">
+          <rect>
+           <x>10</x>
+           <y>190</y>
+           <width>81</width>
+           <height>32</height>
+          </rect>
+         </property>
+         <property name="text">
+          <string>Items</string>
+         </property>
+        </widget>
+        <widget class="QPushButton" name="Dashboard_Button">
+         <property name="geometry">
+          <rect>
+           <x>10</x>
+           <y>10</y>
+           <width>100</width>
+           <height>32</height>
+          </rect>
+         </property>
+         <property name="text">
+          <string>Dashboard</string>
+         </property>
+        </widget>
+        <widget class="QPushButton" name="addCustomerButton">
+         <property name="geometry">
+          <rect>
+           <x>90</x>
+           <y>100</y>
+           <width>21</width>
+           <height>32</height>
+          </rect>
+         </property>
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="text">
+          <string/>
+         </property>
+        </widget>
+        <widget class="QPushButton" name="Reports_Button">
+         <property name="geometry">
+          <rect>
+           <x>10</x>
+           <y>50</y>
+           <width>100</width>
+           <height>32</height>
+          </rect>
+         </property>
+         <property name="text">
+          <string>Reports</string>
+         </property>
+        </widget>
+       </widget>
+      </item>
+      <item>
+       <widget class="QMdiArea" name="mdiArea_main"/>
+      </item>
+     </layout>
     </item>
    </layout>
   </widget>
-  <widget class="QMenuBar" name="menubar">
-   <property name="geometry">
-    <rect>
-     <x>0</x>
-     <y>0</y>
-     <width>800</width>
-     <height>21</height>
-    </rect>
-   </property>
-   <widget class="QMenu" name="menuFile">
-    <property name="title">
-     <string>File</string>
-    </property>
-    <addaction name="actionSave"/>
-    <addaction name="actionSave_As"/>
-    <addaction name="separator"/>
-    <addaction name="actionImport"/>
-    <addaction name="actionExport_As"/>
-    <addaction name="separator"/>
-    <addaction name="actionPrint"/>
-    <addaction name="separator"/>
-    <addaction name="actionExit"/>
-   </widget>
-   <widget class="QMenu" name="menuEdit">
-    <property name="title">
-     <string>Edit</string>
-    </property>
-    <addaction name="actionUndo"/>
-    <addaction name="actionRedo"/>
-    <addaction name="separator"/>
-    <addaction name="actionCut"/>
-    <addaction name="actionCopy"/>
-    <addaction name="actionPaste"/>
-    <addaction name="actionSelect_All"/>
-    <addaction name="separator"/>
-    <addaction name="actionShow_Clipboard"/>
-   </widget>
-   <widget class="QMenu" name="menuView">
-    <property name="title">
-     <string>View</string>
-    </property>
-    <addaction name="actionMinimize"/>
-    <addaction name="actionMaximize_Restore"/>
-    <addaction name="separator"/>
-    <addaction name="actionZoom_In"/>
-    <addaction name="actionZoom_Out"/>
-    <addaction name="separator"/>
-    <addaction name="actionRefresh_Page"/>
-   </widget>
-   <widget class="QMenu" name="menuTools">
-    <property name="title">
-     <string>Office</string>
-    </property>
-    <widget class="QMenu" name="menuSales_Billing">
-     <property name="title">
-      <string>Sales/Billing</string>
-     </property>
-     <addaction name="actionNew_Invoice"/>
-     <addaction name="actionRecurring_Invoices"/>
-     <addaction name="separator"/>
-     <addaction name="actionEstimates_Quotes"/>
-     <addaction name="actionCredit_Notes"/>
-     <addaction name="separator"/>
-     <addaction name="actionProducts_Services"/>
-    </widget>
-    <widget class="QMenu" name="menuPurchases_Expenses">
-     <property name="title">
-      <string>Purchases/Expenses</string>
-     </property>
-     <addaction name="actionReceipt_Upload"/>
-     <addaction name="actionMileage_Hour_Tracking"/>
-     <addaction name="separator"/>
-     <addaction name="actionAccounts_Payable_Bills"/>
-     <addaction name="separator"/>
-     <addaction name="actionVendor_Suppliers"/>
-    </widget>
-    <widget class="QMenu" name="menuPayments">
-     <property name="title">
-      <string>Payments</string>
-     </property>
-     <addaction name="actionReceived_Payments"/>
-     <addaction name="actionPayments_Gateways"/>
-     <addaction name="separator"/>
-     <addaction name="actionBank_Reconciliation"/>
-    </widget>
-    <widget class="QMenu" name="menuContacts">
-     <property name="title">
-      <string>Contacts</string>
-     </property>
-     <addaction name="actionClients_Customers"/>
-     <addaction name="actionGroups"/>
-    </widget>
-    <widget class="QMenu" name="menuReports">
-     <property name="title">
-      <string>Reports</string>
-     </property>
-     <addaction name="actionA_R_Aging_Open_Invoices"/>
-     <addaction name="actionA_P_Aging"/>
-     <addaction name="separator"/>
-     <addaction name="actionSales_Reports"/>
-     <addaction name="actionJobs_Time_Mileage"/>
-     <addaction name="separator"/>
-     <addaction name="actionTax_Summary"/>
-    </widget>
-    <widget class="QMenu" name="menuSettings">
-     <property name="title">
-      <string>Settings</string>
-     </property>
-     <addaction name="actionCompany_Profile"/>
-     <addaction name="actionUser_Settings"/>
-     <addaction name="separator"/>
-     <addaction name="actionInvoice_Customization"/>
-     <addaction name="separator"/>
-     <addaction name="actionTax_Settings"/>
-    </widget>
-    <addaction name="actionDashboard"/>
-    <addaction name="separator"/>
-    <addaction name="menuSales_Billing"/>
-    <addaction name="menuPurchases_Expenses"/>
-    <addaction name="menuPayments"/>
-    <addaction name="actionTaxes"/>
-    <addaction name="separator"/>
-    <addaction name="menuContacts"/>
-    <addaction name="menuReports"/>
-    <addaction name="separator"/>
-    <addaction name="menuSettings"/>
-   </widget>
-   <widget class="QMenu" name="menuHelp">
-    <property name="title">
-     <string>Help</string>
-    </property>
-    <addaction name="actionCompany_Information"/>
-    <addaction name="separator"/>
-    <addaction name="actionDocumentation"/>
-    <addaction name="actionUpdates"/>
-    <addaction name="separator"/>
-    <addaction name="actionApp_Version_Information"/>
-    <addaction name="actionAbout_Qt"/>
-   </widget>
-   <addaction name="menuFile"/>
-   <addaction name="menuEdit"/>
-   <addaction name="menuView"/>
-   <addaction name="menuTools"/>
-   <addaction name="menuHelp"/>
-  </widget>
   <widget class="QStatusBar" name="statusbar"/>
-  <action name="actionSave">
-   <property name="text">
-    <string>Save</string>
-   </property>
-  </action>
-  <action name="actionSave_As">
-   <property name="text">
-    <string>Save As</string>
-   </property>
-  </action>
-  <action name="actionImport">
-   <property name="text">
-    <string>Import</string>
-   </property>
-  </action>
-  <action name="actionExport_As">
-   <property name="text">
-    <string>Export As</string>
-   </property>
-  </action>
-  <action name="actionPrint">
-   <property name="text">
-    <string>Print</string>
-   </property>
-  </action>
-  <action name="actionExit">
-   <property name="text">
-    <string>Exit</string>
-   </property>
-  </action>
-  <action name="actionUndo">
-   <property name="text">
-    <string>Undo</string>
-   </property>
-  </action>
-  <action name="actionRedo">
-   <property name="text">
-    <string>Redo</string>
-   </property>
-  </action>
-  <action name="actionCut">
-   <property name="text">
-    <string>Cut</string>
-   </property>
-  </action>
-  <action name="actionCopy">
-   <property name="text">
-    <string>Copy</string>
-   </property>
-  </action>
-  <action name="actionPaste">
-   <property name="text">
-    <string>Paste</string>
-   </property>
-  </action>
-  <action name="actionSelect_All">
-   <property name="text">
-    <string>Select All</string>
-   </property>
-  </action>
-  <action name="actionShow_Clipboard">
-   <property name="text">
-    <string>Show Clipboard</string>
-   </property>
-  </action>
-  <action name="actionMinimize">
-   <property name="text">
-    <string>Minimize</string>
-   </property>
-  </action>
-  <action name="actionMaximize_Restore">
-   <property name="text">
-    <string>Maximize/Restore</string>
-   </property>
-  </action>
-  <action name="actionZoom_In">
-   <property name="text">
-    <string>Zoom In</string>
-   </property>
-  </action>
-  <action name="actionZoom_Out">
-   <property name="text">
-    <string>Zoom Out</string>
-   </property>
-  </action>
-  <action name="actionRefresh_Page">
-   <property name="text">
-    <string>Refresh Page</string>
-   </property>
-  </action>
-  <action name="actionDashboard">
-   <property name="text">
-    <string>Dashboard</string>
-   </property>
-  </action>
-  <action name="actionTaxes">
-   <property name="text">
-    <string>Taxes</string>
-   </property>
-  </action>
-  <action name="actionNew_Invoice">
-   <property name="text">
-    <string>Invoice</string>
-   </property>
-  </action>
-  <action name="actionRecurring_Invoices">
-   <property name="text">
-    <string>Recurring Invoices</string>
-   </property>
-  </action>
-  <action name="actionEstimates_Quotes">
-   <property name="text">
-    <string>Estimates/Quotes</string>
-   </property>
-  </action>
-  <action name="actionCredit_Notes">
-   <property name="text">
-    <string>Credit Notes</string>
-   </property>
-  </action>
-  <action name="actionProducts_Services">
-   <property name="text">
-    <string>Products &amp; Services</string>
-   </property>
-  </action>
-  <action name="actionReceipt_Upload">
-   <property name="text">
-    <string>Receipt Upload</string>
-   </property>
-  </action>
-  <action name="actionMileage_Hour_Tracking">
-   <property name="text">
-    <string>Mileage &amp; Hour Tracking</string>
-   </property>
-  </action>
-  <action name="actionAccounts_Payable_Bills">
-   <property name="text">
-    <string>Accounts Payable (Bills)</string>
-   </property>
-  </action>
-  <action name="actionVendor_Suppliers">
-   <property name="text">
-    <string>Vendor/Suppliers</string>
-   </property>
-  </action>
-  <action name="actionReceived_Payments">
-   <property name="text">
-    <string>Received Payments</string>
-   </property>
-  </action>
-  <action name="actionPayments_Gateways">
-   <property name="text">
-    <string>Payments Gateways</string>
-   </property>
-  </action>
-  <action name="actionBank_Reconciliation">
-   <property name="text">
-    <string>Bank Reconciliation</string>
-   </property>
-  </action>
-  <action name="actionClients_Customers">
-   <property name="text">
-    <string>Clients/Customers</string>
-   </property>
-  </action>
-  <action name="actionGroups">
-   <property name="text">
-    <string>Groups</string>
-   </property>
-  </action>
-  <action name="actionA_R_Aging_Open_Invoices">
-   <property name="text">
-    <string>A/R Aging/Open Invoices</string>
-   </property>
-  </action>
-  <action name="actionA_P_Aging">
-   <property name="text">
-    <string>A/P Aging</string>
-   </property>
-  </action>
-  <action name="actionSales_Reports">
-   <property name="text">
-    <string>Sales Reports</string>
-   </property>
-  </action>
-  <action name="actionJobs_Time_Mileage">
-   <property name="text">
-    <string>Jobs, Time, &amp; Mileage</string>
-   </property>
-  </action>
-  <action name="actionTax_Summary">
-   <property name="text">
-    <string>Tax Summary</string>
-   </property>
-  </action>
-  <action name="actionCompany_Profile">
-   <property name="text">
-    <string>Company Profile</string>
-   </property>
-  </action>
-  <action name="actionUser_Settings">
-   <property name="text">
-    <string>User Settings</string>
-   </property>
-  </action>
-  <action name="actionInvoice_Customization">
-   <property name="text">
-    <string>Invoice Customization</string>
-   </property>
-  </action>
-  <action name="actionTax_Settings">
-   <property name="text">
-    <string>Tax Settings</string>
-   </property>
-  </action>
-  <action name="actionCompany_Information">
-   <property name="text">
-    <string>Company Information</string>
-   </property>
-  </action>
-  <action name="actionDocumentation">
-   <property name="text">
-    <string>Documentation</string>
-   </property>
-  </action>
-  <action name="actionUpdates">
-   <property name="text">
-    <string>Updates</string>
-   </property>
-  </action>
-  <action name="actionApp_Version_Information">
-   <property name="text">
-    <string>App Version Information</string>
-   </property>
-  </action>
-  <action name="actionAbout_Qt">
-   <property name="text">
-    <string>About Qt</string>
-   </property>
-  </action>
  </widget>
  <resources/>
- <connections>
-  <connection>
-   <sender>actionExit</sender>
-   <signal>triggered()</signal>
-   <receiver>MainWindow</receiver>
-   <slot>close()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>-1</x>
-     <y>-1</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>399</x>
-     <y>323</y>
-    </hint>
-   </hints>
-  </connection>
- </connections>
+ <connections/>
 </ui>

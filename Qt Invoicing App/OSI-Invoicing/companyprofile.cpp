@@ -1,7 +1,7 @@
 #include "companyprofile.h"
 #include "ui_companyprofile.h"
 #include "DatabaseManager.h"
-#include "companydao.h"
+#include "DAO_Company.h"
 
 #include <QMessageBox>
 
@@ -30,7 +30,7 @@ CompanyProfile::~CompanyProfile()
 
 void CompanyProfile::loadCompany()
 {
-    CompanyDAO companyDao(m_dbManager);
+    DAO_Company companyDao(m_dbManager);
     m_originalCompany = companyDao.getCompany();
     populateFields(m_originalCompany);
     setWindowTitle("Company Profile");
@@ -101,7 +101,7 @@ void CompanyProfile::on_Save_PushButton_clicked()
         return;
     }
 
-    CompanyDAO companyDao(m_dbManager);
+    DAO_Company companyDao(m_dbManager);
     if (companyDao.saveCompany(updated)) {
         updated.exists = true;
         m_originalCompany = updated;
@@ -109,18 +109,5 @@ void CompanyProfile::on_Save_PushButton_clicked()
         emit companyProfileUpdated();
     } else {
         QMessageBox::critical(this, "Error", "Failed to save company profile to database.");
-    }
-}
-
-void CompanyProfile::on_Close_PushButton_clicked()
-{
-    // Embedded in a QMdiSubWindow (see MainWindow::on_actionCompany_Profile_triggered).
-    // close() on just this widget hides/destroys the widget itself but
-    // leaves the QMdiSubWindow behind as an empty frame in the MDI area --
-    // close the wrapper instead when there is one.
-    if (QWidget *container = parentWidget()) {
-        container->close();
-    } else {
-        close();
     }
 }

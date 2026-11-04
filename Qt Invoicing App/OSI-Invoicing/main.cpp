@@ -6,7 +6,7 @@
 
 int main(int argc, char *argv[])
 {
-    QApplication app(argc, argv); // Changed a to app
+    QApplication app(argc, argv);
 
     // Instantiate and start backend
     DatabaseManager dbManager;

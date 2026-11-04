@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.19)
-project(OSI-Invoicing LANGUAGES CXX)
+project(OSI-NewMainWindow LANGUAGES CXX)
 
 find_package(Qt6 6.5 REQUIRED COMPONENTS Core Widgets Sql)
 
@@ -7,55 +7,79 @@ qt_standard_project_setup()
 
 set(CMAKE_AUTORCC ON)
 
-qt_add_executable(OSI-Invoicing
+qt_add_executable(OSI-NewMainWindow
     WIN32 MACOSX_BUNDLE
     main.cpp
     mainwindow.cpp
     mainwindow.h
     mainwindow.ui
-    contacts_customer.h contacts_customer.cpp contacts_customer.ui
-    "${CMAKE_CURRENT_SOURCE_DIR}/resources.qrc"
-    DatabaseManager.h
-    DatabaseManager.cpp
-    client.h
-    clientdao.h clientdao.cpp
-    addclientdialog.h addclientdialog.cpp addclientdialog.ui
-    customercard.h customercard.cpp customercard.ui
+    mainwindow.h mainwindow.cpp mainwindow.ui
+    resources.qrc
+    invoice_window.h invoice_window.cpp invoice_window.ui
+    DatabaseManager.h DatabaseManager.cpp
     invoice.h
-    invoicedao.h invoicedao.cpp
-    invoicecard.h invoicecard.cpp invoicecard.ui
-    addinvoicedialog.h addinvoicedialog.cpp addinvoicedialog.ui
-    contacts_invoices.h contacts_invoices.cpp contacts_invoices.ui
-    companyprofile.h companyprofile.cpp companyprofile.ui
-    companydao.h companydao.cpp
-    taxdao.h taxdao.cpp
+    DAO_Invoice.h DAO_Invoice.cpp
+    DAO_Items.h DAO_Items.cpp
+    Invoiceitem.h
     payment.h
-    invoiceitem.h
-    invoiceitemdao.h invoiceitemdao.cpp
-    paymentdao.h paymentdao.cpp
-    recordpaymentdialog.h recordpaymentdialog.cpp recordpaymentdialog.ui
-    salestaxreport.h salestaxreport.cpp salestaxreport.ui
-    salestaxreportdao.h salestaxreportdao.cpp
-    taxsettings.h taxsettings.cpp taxsettings.ui
+    DAO_Payment.h DAO_Payment.cpp
+    addInvoice.h addInvoice.cpp addInvoice.ui
+    invoicecard.h invoicecard.cpp invoicecard.ui
     invoicestatusguard.h
+    client.h
+    DAO_Client.h DAO_Client.cpp
+    addPayment.h addPayment.cpp addPayment.ui
+    DAO_Tax.h DAO_Tax.cpp
+    customercard.h customercard.cpp customercard.ui
+    contacts_customer.h contacts_customer.cpp contacts_customer.ui
+    addclient.h addclient.cpp addclient.ui
+    payment_window.h payment_window.cpp payment_window.ui
+    DAO_Services.h DAO_Services.cpp
+    additem.h additem.cpp additem.ui
+    products_item.h products_item.cpp products_item.ui
+    item.h
+    DAO_Company.h DAO_Company.cpp
+    companyprofile.h companyprofile.cpp companyprofile.ui
+    DAO_SalesTaxReport.h DAO_SalesTaxReport.cpp
+    salestaxreport.h salestaxreport.cpp salestaxreport.ui
+    taxsettings.h taxsettings.cpp taxsettings.ui
+    settings_window.h settings_window.cpp settings_window.ui
+    reports_window.h reports_window.cpp reports_window.ui
+    salesbyitem.h salesbyitem.cpp salesbyitem.ui
+    DAO_Reports.h DAO_Reports.cpp
+    salesbycustomer.h salesbycustomer.cpp salesbycustomer.ui
+    arsummary.h arsummary.cpp arsummary.ui
+    columnmatcher.h columnmatcher.cpp
+    csvreader.h csvreader.cpp
+    entitymapper.h entitymapper.cpp
+    universalimportdialog.h universalimportdialog.cpp
+    clientimportmapper.h clientimportmapper.cpp
+    pagebar.h
+    DAO_Dashboard.h DAO_Dashboard.cpp
+    barchartwidget.h barchartwidget.cpp
+    dash_board.h dash_board.cpp
+    dashboarddata.h
+
+
+
 
 )
 
-target_link_libraries(OSI-Invoicing
+target_link_libraries(OSI-NewMainWindow
     PRIVATE
         Qt6::Core
         Qt6::Widgets
         Qt6::Sql
 )
 
-install(TARGETS OSI-Invoicing
+install(TARGETS OSI-NewMainWindow
     BUNDLE  DESTINATION .
     RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
     LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
 )
 
 qt_generate_deploy_app_script(
-    TARGET OSI-Invoicing
+    TARGET OSI-NewMainWindow
     OUTPUT_SCRIPT deploy_script
     NO_UNSUPPORTED_PLATFORM_ERROR
 )
