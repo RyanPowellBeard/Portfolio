@@ -1,7 +1,7 @@
 #include "taxsettings.h"
 #include "ui_taxsettings.h"
 #include "DatabaseManager.h"
-#include "taxdao.h"
+#include "DAO_Tax.h"
 
 #include <QMessageBox>
 #include <QLineEdit>
@@ -27,7 +27,7 @@ TaxSettings::~TaxSettings()
 
 void TaxSettings::refreshTable()
 {
-    Taxdao taxDao(m_dbManager);
+    DAO_Tax taxDao(m_dbManager);
     QVector<TaxRate> rates = taxDao.getAllTaxRates();
 
     ui->TaxRates_TableWidget->clearContents();
@@ -69,7 +69,7 @@ void TaxSettings::refreshTable()
             updated.ratePercent = rateSpin->value();
             updated.active = activeCheck->isChecked();
 
-            Taxdao taxDao(m_dbManager);
+            DAO_Tax taxDao(m_dbManager);
             if (!taxDao.updateTaxRate(updated)) {
                 QMessageBox::critical(this, "Error", "Failed to save tax rate to database.");
             }
@@ -86,7 +86,7 @@ void TaxSettings::on_AddRate_PushButton_clicked()
         return;
     }
 
-    Taxdao taxDao(m_dbManager);
+    DAO_Tax taxDao(m_dbManager);
     if (taxDao.insertTaxRate(name, ui->NewRate_SpinBox->value(), true) == 0) {
         QMessageBox::critical(this, "Error", "Failed to save tax rate to database.");
         return;
@@ -97,15 +97,3 @@ void TaxSettings::on_AddRate_PushButton_clicked()
     refreshTable();
 }
 
-void TaxSettings::on_Close_PushButton_clicked()
-{
-    // Embedded in a QMdiSubWindow (see MainWindow::on_actionTax_Settings_triggered).
-    // close() on just this widget hides/destroys the widget itself but
-    // leaves the QMdiSubWindow behind as an empty frame in the MDI area --
-    // close the wrapper instead when there is one.
-    if (QWidget *container = parentWidget()) {
-        container->close();
-    } else {
-        close();
-    }
-}

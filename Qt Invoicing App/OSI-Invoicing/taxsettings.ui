@@ -10,6 +10,12 @@
     <height>420</height>
    </rect>
   </property>
+  <property name="maximumSize">
+   <size>
+    <width>500</width>
+    <height>470</height>
+   </size>
+  </property>
   <property name="windowTitle">
    <string>Tax Settings</string>
   </property>
@@ -33,7 +39,7 @@
      </column>
      <column>
       <property name="text">
-       <string></string>
+       <string/>
       </property>
      </column>
     </widget>
@@ -85,13 +91,6 @@
        </widget>
       </item>
      </layout>
-    </widget>
-   </item>
-   <item>
-    <widget class="QPushButton" name="Close_PushButton">
-     <property name="text">
-      <string>CLOSE</string>
-     </property>
     </widget>
    </item>
   </layout>

@@ -1,7 +1,7 @@
 #include "salestaxreport.h"
 #include "ui_salestaxreport.h"
 #include "DatabaseManager.h"
-#include "salestaxreportdao.h"
+#include "DAO_SalesTaxReport.h"
 
 #include <QDate>
 #include <QTableWidgetItem>
@@ -44,7 +44,7 @@ void SalesTaxReport::runReport()
     const QDate startDate = ui->StartDate_DateEdit->date();
     const QDate endDate = ui->EndDate_DateEdit->date();
 
-    SalesTaxReportDao reportDao(m_dbManager);
+    DAO_SalesTaxReport reportDao(m_dbManager);
     const SalesTaxSummary summary = reportDao.computeSummary(startDate, endDate);
 
     ui->Basis_Label->setText(QString("Basis: %1").arg(summary.accrualBasis ? "Accrual" : "Cash"));
@@ -61,18 +61,5 @@ void SalesTaxReport::runReport()
         ui->TaxLines_TableWidget->setItem(row, 1, new QTableWidgetItem(QString("%1%").arg(line.ratePercent)));
         ui->TaxLines_TableWidget->setItem(row, 2, new QTableWidgetItem(formatCents(line.taxableSalesCents)));
         ui->TaxLines_TableWidget->setItem(row, 3, new QTableWidgetItem(formatCents(line.taxOwedCents)));
-    }
-}
-
-void SalesTaxReport::on_Close_PushButton_clicked()
-{
-    // Embedded in a QMdiSubWindow (see MainWindow::on_actionTax_Summary_triggered).
-    // close() on just this widget hides/destroys the widget itself but
-    // leaves the QMdiSubWindow behind as an empty frame in the MDI area --
-    // close the wrapper instead when there is one.
-    if (QWidget *container = parentWidget()) {
-        container->close();
-    } else {
-        close();
     }
 }
