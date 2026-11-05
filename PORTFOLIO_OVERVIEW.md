@@ -1,53 +1,61 @@
-# Engineering & Systems Portfolio
+# Ryan Powell — Software & Systems Portfolio
 
-Dual-Degree Systems & Software Professional specializing in Embedded Systems, R&D Remote Sensing, and Hardware-Software Integration.
+Software developer with a long electronics, systems, and field-infrastructure background. I work in C/C++, Python, Java, and SQL, and I like projects where software meets hardware or a real business workflow.
 
----
-
-## 👨‍💻 About Me
-
-I am currently finishing a **B.S. in Computer Science** from Colorado State University and a **B.S. in Electronic Engineering** from DeVry University. My technical focus spans low-level microcontroller programming, wireless ad-hoc sensor networks, hardware interfacing, and desktop software application development[cite: 1].
-
-With a proven background across mission-critical testing environments, deep-space hardware setups, and industrial production execution[cite: 1], I bridge the gap between low-level hardware design and high-level software ecosystems[cite: 1].
-
-- 🔬 **Core Technical Focus:** Embedded C/C++, Embedded Python, VHDL, Zigbee Mesh Networks, and System Architecture[cite: 1].
-- 💻 **Software & Database Stack:** Java (Swing), MySQL, Unix/Linux Shell Scripting, Git/GitHub Pipelines[cite: 1].
-- ⚙️ **Systems & Hardware Operations:** CNC Calibration, FPGA Interfacing, RF/Telecommunications Diagnostics, Workstation Architectures[cite: 1].
+- **Location:** Worland, WY — open to remote work and relocation to Colorado
+- **Security clearance:** reinstatable (Secret / Confidential)
+- **Education:** B.S. in Computer Science, Colorado State University — currently enrolled (between classes), four courses remaining. B.S. in Electronic Engineering, DeVry University — three courses remaining, on hold until the CSU degree is complete. Neither degree has been awarded yet.
+- **Contact:** RPowellB@protonmail.com · [LinkedIn](https://www.linkedin.com/in/ryan-powell-beard-aba7bb2a3/)
 
 ---
 
-## 🛠️ Featured Portfolio Projects
+## Projects in this repository
 
-### 1. Wireless Remote Sensing Network R&D
-- **Tech Stack:** Zigbee Protocols, Embedded Python, Low-Level C[cite: 1]
-- **Overview:** Architect-ed low-power, ad-hoc wireless mesh sensor networks targeted for remote parameter data acquisition[cite: 1].
-- **Key Features:**
-  - Configured low-power mesh topology using Zigbee modules[cite: 1].
-  - Optimized MCU sleep profiles and C/Python modules to minimize standby power drain[cite: 1].
-  - Ensured reliable packet transmission across remote monitoring nodes[cite: 1].
+### OSI — Invoicing & Business Management (C++ / Qt 6)
+[`Qt Invoicing App/OSI-Invoicing`](Qt%20Invoicing%20App/OSI-Invoicing)
 
-### 2. Database-Driven Desktop Ecosystem
-- **Tech Stack:** Java (Swing GUI), MySQL Back-end, Git/GitHub[cite: 1]
-- **Overview:** Engineered a full-stack desktop management application interfacing a native Swing front-end to a relational MySQL server[cite: 1].
-- **Key Features:**
-  - Designed interactive UI components mapped to structured relational database schemas[cite: 1].
-  - Enforced structured version control with atomic commits, branching models, and merge-conflict resolution strategies[cite: 1].
+A cross-platform desktop application for customers, invoices, items and services, payments, tax settings, and reporting. Screenshots from Windows 11, macOS Sequoia, and Pop!_OS are in [`OSI-Screen-shots`](Qt%20Invoicing%20App/OSI-Screen-shots).
+
+- Qt 6, CMake, Qt SQL, SQLite
+- A `DatabaseManager` owns database setup, the schema, foreign-key enforcement, and connections
+- Data Access Objects (DAOs), each constructed with a reference to the `DatabaseManager`, contain the SQL; the UI windows go through the DAOs
+- Dashboard, A/R summary, sales reports, and CSV import with column matching
+- **Status:** component integration and manual testing are in progress. Encryption, automated tests, and additional database options are planned and are **not** complete.
+- Licensed AGPL-3.0
+
+### OSI — Java prototype (being added)
+The original Java version of OSI, built to explore requirements and workflows before the C++/Qt rebuild.
+
+### x86 Assembly Bootloaders
+[`ASM`](ASM)
+
+NASM bootloaders for BIOS real mode: boot-sector text output (INT 0x10), a two-stage loader that reads the second stage from disk (INT 0x13) with error handling, and an interactive input example. Tested in QEMU.
+
+### OpenGL Sphere
+[`OpenGL with C-C++/Sphere`](OpenGL%20with%20C-C%2B%2B/Sphere)
+
+A C++ / GLFW / GLEW program that builds a sphere from triangles and rotates it in real time with depth testing and viewport resizing. It uses the legacy fixed-function (`glBegin`) pipeline.
+
+### Academic Projects
+[`School Projects`](School%20Projects)
+
+Coursework in C++ and Java: data structures and sorting, multithreading with mutexes, and Java concurrency. See the [Academic README](School%20Projects/Academic%20README.md).
 
 ---
 
-## 📑 Skills & Technical Matrix
+## Work not shown here
 
-| Category | Key Competencies |
+- **Wireless animal-tracking R&D (Zigbee, Embedded Python, C):** I was one of two people on this project. It is covered by an NDA, so no code or details are published.
+- **Electronics and systems work** at Signs of Sutherland (board-level troubleshooting, digital signage, CNC, IT) and earlier infrastructure and test-range roles. These are described on my resume rather than in code.
+
+---
+
+## Skills
+
+| Area | Tools and languages |
 | :--- | :--- |
-| **Embedded & Hardware** | Microcontrollers, Zigbee, VHDL, FPGA Interfacing, Remote Sensing R&D[cite: 1] |
-| **Software Development** | C/C++, Embedded Python, Java (Swing), HTML, Linux/Unix Scripting[cite: 1] |
-| **Data & Architecture** | MySQL, Relational Database Design, Git/GitHub Ecosystem[cite: 1] |
-| **Systems & Infrastructure** | CNC Machine Operation, Network & Workstation Architecture, Diagnostics[cite: 1] |
-
----
-
-## 📬 Contact & Links
-
-- **LinkedIn:** [linkedin.com/in/ryan-powell-beard-aba7bb2a2](https://www.linkedin.com/in/ryan-powell-beard-aba7bb2a2)[cite: 1]
-- **Email:** RPowellB@protonmail.com[cite: 1]
-- **Clearance:** Re-instatable Secret / Confidential[cite: 1]
+| Languages | C/C++, Python (incl. 2.7 / 3.5 and embedded), Java, SQL; exposure to C#, VHDL, HTML, Assembly |
+| Application development | Qt 6, Java Swing, CMake, desktop application architecture |
+| Databases | SQLite, MySQL, Data Access Object pattern, prepared queries |
+| Tools | Git/GitHub (branching and merge-conflict workflow), Linux/Unix shell |
+| Hardware | Multimeters, oscilloscopes, soldering, device programmers, PCB/PCA diagnostics, FPGA interfacing, microcontrollers |
