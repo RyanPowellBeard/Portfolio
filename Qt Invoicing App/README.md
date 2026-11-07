@@ -89,4 +89,4 @@ For application features, architecture, database design, screenshots, and build 
 
 Released under the **GNU Affero General Public License v3.0 (AGPL-3.0)**.
 
-See the [LICENSE](LICENSE) file for complete license terms.
+See the [LICENSE](OSI-Invoicing/LICENSE) file for complete license terms.
